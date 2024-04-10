@@ -11,7 +11,7 @@ function App() {
         </p>
 
         <p>
-          Biblioteka Lola Instituta d.o.o. - Vlada proba
+          Biblioteka Lola Instituta d.o.o.
         </p>
 
       </header>
