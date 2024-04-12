@@ -13,7 +13,7 @@ function App() {
         </p>
 
         <p>
-          Biblioteka Lola Instituta d.o.o. - aaaaaaa-
+          Biblioteka Lola Instituta d.o.o.
         </p>
 
       </header>
