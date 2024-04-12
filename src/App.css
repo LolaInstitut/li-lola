@@ -5,6 +5,12 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+<<<<<<< HEAD
+  position: fixed; /* Postavljamo poziciju na fixed kako bi logo ostao na vrhu stranice */
+  top: 15px; /* Postavljamo logo na vrh stranice */
+  transform: translateX(-50%); /* Pomeramo logo horizontalno za pola svoje širine kako bi bio centriran */
+=======
+>>>>>>> ec19ca02554142cc3866533b9de7fdeda3b8099c
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -33,7 +39,11 @@
     transform: translateY(0);
   }
   40%{
+<<<<<<< HEAD
+    transform: translateY(-15px);
+=======
     transform: translateY(-30px);
+>>>>>>> ec19ca02554142cc3866533b9de7fdeda3b8099c
   }
   60%{
     transform: translateY(-15px);
