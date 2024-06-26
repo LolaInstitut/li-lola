@@ -7,6 +7,9 @@ import Home from "./components/Home/Home";
 import { auth } from "./firebaseConfig";
 import Logout from "./components/Logout/Logout";
 import Profile from "./components/Profile/Profile";
+import AddBook from "./components/AddBook/AddBook";
+import EditBook from "./components/EditBook/EditBook";
+import UserBooks from "./components/UserBooks/UserBooks";
 
 const App = () => {
   const [userName, setUserName] = useState("");
@@ -27,6 +30,9 @@ const App = () => {
           <Route path="/home" element={<Home name={userName} />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/addbook" element={<AddBook />} />
+          <Route path="/edit-book/:bookId" element={<EditBook />} />
+          <Route path="/userbook" element={<UserBooks />} />
         </Routes>
       </Router>
 
