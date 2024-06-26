@@ -1,3 +1,4 @@
+/* Globalni stilovi */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +11,32 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Stilovi za desktop */
+@media (min-width: 1025px) {
+  body {
+    background-color: white;
+  }
+}
+
+/* Stilovi za tablete */
+@media (min-width: 768px) and (max-width: 1024px) {
+  body {
+    background-color: whitesmoke;
+  }
+}
+
+/* Stilovi za mobilne telefone */
+@media (max-width: 767px) {
+  body {
+    background-color: wheat;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }

@@ -1,46 +1,73 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-  position: fixed; /* Postavljamo poziciju na fixed kako bi logo ostao na vrhu stranice */
-  top: 15px; /* Postavljamo logo na vrh stranice */
-  transform: translateX(-50%); /* Pomeramo logo horizontalno za pola svoje širine kako bi bio centriran */
-
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: bounce 2s infinite;
-  }
-}
-
-.App-header {
-  background-color:#FFFFFF;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  padding-top: 60px; /* Adjust based on header height */
+  padding-bottom: 40px; /* Adjust based on footer height */
+}
+
+.header {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: black;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  width: 95%;
+  background-color: transparent;
+  padding: 10px 20px; /* Add some padding for better spacing */
+  z-index: 1000;
 }
 
-.App-link {
-  color: #61dafb;
+button {
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  color: #2a3588;
+  font-weight: bold; /* Dodajemo boldiranje teksta */
 }
 
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40%{
 
-    transform: translateY(-15px);
-  }
-  60%{
-    transform: translateY(-15px);
-  }
+.content {
+  flex: 1;
+  margin-top: 60px; /* Adjust based on header height */
+  margin-bottom: 40px; /* Adjust based on footer height */
+}
+
+.footer {
+  background-color: transparent;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: #2a3588;
+  z-index: 1000;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+input[type="text"] {
+  padding: 8px;
+  margin-right: 10px; /* Dodajemo razmak sa desne strane */
+  border: 1px solid #007bff; /* Dodajemo tanku ivicu oko input polja */
+  border-radius: 4px; /* Dodajemo blagi zaobljeni ivični efekat */
+  font-size: 16px;
+  width: 200px; /* Prilagodite širinu po potrebi */
+  color: #2a3588; /* Postavljamo boju teksta */
+}
+
+/* Kada korisnik fokusira input polje, dodajemo dodatne stilove */
+input[type="text"]:focus {
+  outline: none; /* Uklanjamo podrazumevani obris oko fokusiranog input polja */
+  border-color: #2a3588; /* Menjamo boju ivice kada je polje fokusirano */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Dodajemo senku oko fokusiranog input polja */
+}
+
+h1 {
+  color: #2a3588; /* Boja teksta za h1 */
 }
