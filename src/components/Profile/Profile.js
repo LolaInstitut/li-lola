@@ -10,7 +10,11 @@ function Profile() {
     const [user, setUser] = useState(null);
     const [values, setValues] = useState({
         name: "",
+        lastname: "",
         email: "",
+        phone: "",
+        company: "",
+        position: "",
     });
     const [errorMsg, setErrorMsg] = useState('');
     const navigate = useNavigate();
@@ -42,6 +46,12 @@ function Profile() {
             await updateProfile(auth.currentUser, { displayName: values.name });
             await updateDoc(doc(db, "users", auth.currentUser.uid), {
                 name: values.name,
+                lastname: values.lastname,
+                phone: values.phone,
+                company: values.company,
+                position: values.position
+
+                // Note: Do not store passwords in plaintext or directly update via client side in a real app.
             });
             setErrorMsg("Profile updated successfully.");
         } catch (error) {
@@ -60,10 +70,38 @@ function Profile() {
                 }
             />
             <InputControl
+                label="Last Name"
+                value={values.lastname}
+                onChange={(event) =>
+                    setValues((prev) => ({ ...prev, lastname: event.target.value }))
+                }
+            />
+            <InputControl
                 label="Email"
                 value={values.email}
                 onChange={() => {}}
                 disabled={true}
+            />
+            <InputControl
+                label="Phone"
+                value={values.phone}
+                onChange={(event) =>
+                    setValues((prev) => ({ ...prev, phone: event.target.value }))
+                }
+            />
+            <InputControl
+                label="Company"
+                value={values.company}
+                onChange={(event) =>
+                    setValues((prev) => ({ ...prev, company: event.target.value }))
+                }
+            />
+            <InputControl
+                label="Position"
+                value={values.position}
+                onChange={(event) =>
+                    setValues((prev) => ({ ...prev, position: event.target.value }))
+                }
             />
             {errorMsg && <p className={styles.errorMsg}>{errorMsg}</p>}
             <button onClick={handleUpdate}>Update Profile</button>

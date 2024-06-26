@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword} from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import InputControl from "../InputControl/InputControl";
 import styles from "./Login.module.css";
-
 
 function Login() {
   const navigate = useNavigate();
@@ -22,17 +24,29 @@ function Login() {
       return;
     }
     setErrorMsg("");
-
     setSubmitButtonDisabled(true);
 
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then(async (res) => {
         setSubmitButtonDisabled(false);
-
         navigate("/");
       })
       .catch((err) => {
         setSubmitButtonDisabled(false);
+        setErrorMsg(err.message);
+      });
+  };
+
+  const handleForgotPassword = () => {
+    if (!values.email) {
+      setErrorMsg("Please enter your email address to reset your password.");
+      return;
+    }
+    sendPasswordResetEmail(auth, values.email)
+      .then(() => {
+        setErrorMsg("Password reset email sent!");
+      })
+      .catch((err) => {
         setErrorMsg(err.message);
       });
   };
@@ -57,11 +71,23 @@ function Login() {
           placeholder="Enter your password..."
         />
 
+        <p>
+          Forgot your password?{" "}
+          <button
+            onClick={handleForgotPassword}
+            style={{ color: "blue", cursor: "pointer" }}
+          >
+            Reset Password
+          </button>
+        </p>
+
         <div className={styles.footer}>
           <b className={styles.error}>{errorMsg}</b>
-          <button disabled={submitButtonDisabled} onClick={handleSubmissions}>Login</button>
+          <button disabled={submitButtonDisabled} onClick={handleSubmissions}>
+            Login
+          </button>
           <p>
-            Alredy have an account?{""}{" "}
+            Don't have an account?{" "}
             <span>
               <Link to="/signup">Sign up</Link>
             </span>

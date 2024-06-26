@@ -10,15 +10,20 @@ function Signup() {
   const navigate = useNavigate();
   const [values, setValues] = useState({
     name: "",
+    lastname: "",
     email: "",
     password: "",
+    phone: "",
+    company: "",
+    position: "",
+
   });
 
   const [errorMsg, setErrorMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   const handleSubmissions = () => {
-    if (!values.name || !values.email || !values.password) {
+    if (!values.name || !values.lastname || !values.email || !values.password || !values.phone || !values.company || !values.position) {
       setErrorMsg("Fill all fields");
       return;
     }
@@ -30,11 +35,22 @@ function Signup() {
         const user = res.user;
         await updateProfile(user, {
           displayName: values.name,
+          displayLastname: values.lastname,
+          displayEmail: values.email,
+          displayPassword: values.password,
+          displayPhone: values.phone,
+          displayCompany: values.company,
+          displayPosition: values.position,
         });
         // Add user data to Firestore
         await setDoc(doc(db, "users", user.uid), {
           name: values.name,
+          lastname: values.lastname,
           email: values.email,
+          password: values.password,
+          phone: values.phone,
+          company: values.company,
+          position: values.position,
         });
         navigate("/");
       })
@@ -58,6 +74,13 @@ function Signup() {
           }
         />
         <InputControl
+          label="Lastname"
+          placeholder="Enter your lastname..."
+          onChange={(event) =>
+            setValues((prev) => ({ ...prev, lastname: event.target.value }))
+          }
+        />
+        <InputControl
           label="Email"
           placeholder="Enter your email address..."
           onChange={(event) =>
@@ -69,6 +92,27 @@ function Signup() {
           placeholder="Enter your password..."
           onChange={(event) =>
             setValues((prev) => ({ ...prev, password: event.target.value }))
+          }
+        />
+                <InputControl
+          label="Phone"
+          placeholder="Enter your phone..."
+          onChange={(event) =>
+            setValues((prev) => ({ ...prev, phone: event.target.value }))
+          }
+        />
+                <InputControl
+          label="Company"
+          placeholder="Enter your company name..."
+          onChange={(event) =>
+            setValues((prev) => ({ ...prev, company: event.target.value }))
+          }
+        />
+                <InputControl
+          label="Position"
+          placeholder="Enter your position in company..."
+          onChange={(event) =>
+            setValues((prev) => ({ ...prev, position: event.target.value }))
           }
         />
 
