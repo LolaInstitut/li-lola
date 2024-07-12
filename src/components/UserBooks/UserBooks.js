@@ -45,7 +45,6 @@ function UserBooks() {
           {books.map((book) => (
             <li key={book.id}>
               <h2>{book.title}</h2>
-              <p>{book.subtitle}</p>
               <button onClick={() => navigate(`/edit-book/${book.id}`)}>Edit</button>
             </li>
           ))}

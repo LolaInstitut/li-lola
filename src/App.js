@@ -35,20 +35,6 @@ const App = () => {
           <Route path="/userbook" element={<UserBooks />} />
         </Routes>
       </Router>
-
-      <div className="header">
-        <h1>Biblioteka</h1>
-
-      </div>
-      <p></p>
-      <div className="content">
-        {/* Vaš glavni sadržaj ide ovde */}
-        {/* Dodajemo input polje za pretragu */}
-        <input type="text" placeholder="Pretraži knjige" />
-      </div>
-      <footer className="footer">
-        Autorsko pravo © Lola institut d.o.o. 2023. Sva prava zadržana.
-      </footer>
     </div>
   );
 };
