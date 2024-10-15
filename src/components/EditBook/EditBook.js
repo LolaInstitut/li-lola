@@ -234,6 +234,18 @@ function EditBook() {
             </option>
           ))}
         </select>
+        <label>Inventarski broj:</label>
+        <input
+          type="text"
+          value={bookData.inventoryNumber || ""}
+          onChange={(e) => handleInputChange("inventoryNumber", e.target.value)}
+        />
+        <label>Signatura:</label>
+        <input
+          type="text"
+          value={bookData.signature || ""}
+          onChange={(e) => handleInputChange("signature", e.target.value)}
+        />
         <label>Cover Image:</label>
         <input
           type="file"

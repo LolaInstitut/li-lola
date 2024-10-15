@@ -1,0 +1,79 @@
+/* Osnovni stil za glavnu .container klasu */
+.container {
+  display: flex;
+  justify-content: center; /* Horizontalno centriranje */
+  align-items: center; /* Vertikalno centriranje */
+  min-height: 100vh; /* Koristi min-height umesto height za punu visinu ekrana */
+  background-color: #f5f5f5;
+  padding: 20px; /* Daje malo prostora oko sadržaja */
+}
+
+/* Stil za tabelu */
+.invisibleTable {
+  width: 100%;
+  max-width: 800px; /* Maksimalna širina tabele */
+  border-collapse: collapse;
+  margin: 0 auto; /* Centriranje tabele */
+}
+
+/* Stil za ćelije tabele */
+.invisibleTable td {
+  padding: 8px;
+  border: none; /* Uklanja ivice tabele */
+  text-align: center; /* Centriranje sadržaja unutar ćelija */
+  vertical-align: middle; /* Vertikalno centriranje sadržaja ćelije */
+}
+
+/* Stil za slike unutar tabele */
+.invisibleTable img {
+  max-width: 100px; /* Prilagodite veličinu slike po potrebi */
+  display: block; /* Izbegava razmak oko slike */
+  margin: 0 auto; /* Centriranje slike */
+}
+
+/* Stil za zaglavlje */
+h2 {
+  color: #5a2a82;
+  text-align: center; /* Centriranje naslova */
+}
+
+/* Responsive prilagođavanje za manje ekrane */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .invisibleTable {
+    max-width: 100%; /* Tabela koristi punu širinu na manjim ekranima */
+  }
+
+  .invisibleTable td {
+    padding: 12px; /* Povećaj padding za bolju preglednost na manjim ekranima */
+  }
+
+  .invisibleTable img {
+    max-width: 80px; /* Manje slike na manjim ekranima */
+  }
+
+  h2 {
+    font-size: 20px; /* Manji font za naslove */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .invisibleTable td {
+    padding: 10px; /* Još veći padding za vrlo male ekrane */
+  }
+
+  .invisibleTable img {
+    max-width: 60px; /* Još manje slike za vrlo male ekrane */
+  }
+
+  h2 {
+    font-size: 18px; /* Još manji font za naslove */
+  }
+}

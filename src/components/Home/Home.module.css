@@ -1,130 +1,88 @@
-.container {
-    display: grid;
-    grid-template-columns: 250px 1fr; /* Sidebar and main content */
-    grid-template-rows: auto 1fr;
-    gap: 20px;
-    padding: 20px;
-    background-color: #ffffff; /* Clean look with white background */
-    align-items: start;
-    font-family: Arial, sans-serif; /* Modern look */
+/* Book list section styling */
+.books-list-container {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 5px #ccc; /* Lighter shadow for soft effect */
+  overflow-y: auto;
+  text-align: center;
+}
+
+/* Table styling */
+.booksTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: transparent; /* Transparent background for the table */
+}
+
+.booksTable th, .booksTable td {
+  border: transparent; /* Light grey border with transparency */
+  padding: 12px;
+  text-align: center; /* Center content in both th and td */
+  background-color: transparent; /* Transparent background for table cells */
+}
+
+.booksTable th {
+  background-color: transparent; /* Semi-transparent background for headers */
+  font-weight: bold;
+}
+
+.booksTable tr:nth-child(even) {
+  background-color: transparent; /* Semi-transparent background for even rows */
+}
+
+.booksTable tr:hover {
+  background-color: rgba(241, 241, 241, 0.7); /* Semi-transparent background for hovered rows */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1024px) {
+  .container {
+    padding: 15px;
   }
-  
-  /* Search and button container styling */
+
+  .search-container, .filters-container, .books-list-container {
+    padding: 15px;
+  }
+
+  .filters-container, .books-list-container {
+    margin-bottom: 20px; /* Add margin between sections */
+  }
+}
+
+@media (max-width: 768px) {
   .search-container {
-    grid-column: 1 / -1; /* Full width */
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Ensures items are vertically aligned */
-    padding: 10px;
-    background-color: #eeeeee; /* Light grey for subtle distinction */
-    border: none;
-    border-radius: 8px;
+    flex-direction: column; /* Stack input and buttons vertically */
+    align-items: stretch;
   }
-  
+
   .search-input {
-    flex-grow: 1;
-    margin-right: 10px; /* Ensures spacing between input and button */
-    padding: 10px; /* Ensures input field has consistent padding */
+    margin-right: 0; /* Remove margin */
+    margin-bottom: 10px; /* Add bottom margin */
+    width: 100%; /* Full width for input on smaller screens */
   }
-  
+
   button {
+    width: 100%; /* Full width button on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .search-container, .filters-container, .books-list-container {
     padding: 10px;
-    background-color: #4CAF50; /* Brighter button color */
-    color: white;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    width: 80px; /* Fixed width for smaller buttons */
-    height: 38px; /* Same height as input field */
-    display: inline-flex;
-    align-items: center; /* Ensures text is vertically centered within button */
-    justify-content: center; /* Ensures text is horizontally centered within button */
   }
-  
-  button:hover {
-    background-color: #45a049; /* Slightly darker on hover */
+
+  .filters-container, .books-list-container {
+    margin-bottom: 15px; /* Add margin between sections */
   }
-  
-  /* Filter section styling */
-  .filters-container {
-    padding: 20px;
-    background-color: #f9f9f9; /* Slightly different grey to distinguish the section */
-    border-radius: 8px;
-    box-shadow: inset 0 0 10px #ddd; /* Subtle inner shadow for depth */
+
+  .search-input, button {
+    width: 100%; /* Full width elements */
+    box-sizing: border-box; /* Include padding and border in the width */
   }
-  
-  /* Individual filter group styling */
-  .filter-group {
-    margin-bottom: 20px;
+
+  .search-input {
+    margin-bottom: 10px; /* Margin between input and buttons */
   }
-  
-  .filter-group label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  .filter-group + .filter-group {
-    margin-top: 20px; /* Additional margin between filter groups */
-  }
-  
-  /* Book list section styling */
-  .books-list-container {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 5px #ccc; /* Lighter shadow for soft effect */
-    overflow-y: auto;
-    text-align: center;
-  }
-  
-  /* Media queries for responsiveness */
-  @media (max-width: 1024px) {
-    .container {
-      grid-template-columns: 1fr; /* Stack columns on smaller screens */
-    }
-  
-    .search-container {
-      flex-direction: column; /* Stack input and buttons vertically */
-      align-items: stretch;
-    }
-  
-    .search-input {
-      margin-right: 0; /* Remove margin */
-      margin-bottom: 10px; /* Add bottom margin */
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .container {
-      grid-template-columns: 1fr;
-    }
-  
-    .search-container, .filters-container, .books-list-container {
-      padding: 15px;
-    }
-  
-    .filters-container, .books-list-container {
-      margin-bottom: 20px; /* Add margin between sections */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .search-container, .filters-container, .books-list-container {
-      padding: 10px;
-    }
-  
-    .filters-container, .books-list-container {
-      margin-bottom: 15px; /* Add margin between sections */
-    }
-  
-    .search-input, button {
-      width: 100%; /* Full width elements */
-      box-sizing: border-box; /* Include padding and border in the width */
-    }
-  
-    .search-input {
-      margin-bottom: 10px; /* Margin between input and buttons */
-    }
-  }
-  
+}

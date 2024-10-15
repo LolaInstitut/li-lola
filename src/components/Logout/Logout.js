@@ -9,7 +9,7 @@ function Logout() {
   useEffect(() => {
     signOut(auth)
       .then(() => {
-        navigate("/", { replace: true }); // Ensuring redirect resets the navigation stack
+        navigate("/home", { replace: true }); // Ensuring redirect resets the navigation stack
       })
       .catch((error) => {
         console.error('Logout failed:', error);

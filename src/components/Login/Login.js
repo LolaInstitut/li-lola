@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import InputControl from "../InputControl/InputControl";
 import styles from "./Login.module.css";
@@ -17,6 +14,7 @@ function Login() {
 
   const [errorMsg, setErrorMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleSubmissions = () => {
     if (!values.email || !values.password) {
@@ -29,7 +27,7 @@ function Login() {
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then(async (res) => {
         setSubmitButtonDisabled(false);
-        navigate("/");
+        navigate("/home"); // Promenite ovu liniju
       })
       .catch((err) => {
         setSubmitButtonDisabled(false);
@@ -65,17 +63,24 @@ function Login() {
         />
         <InputControl
           label="Password"
+          type={passwordVisible ? "text" : "password"}
           onChange={(event) =>
             setValues((prev) => ({ ...prev, password: event.target.value }))
           }
           placeholder="Enter your password..."
         />
+        <button
+          className={styles.showHideButton}
+          onClick={() => setPasswordVisible(!passwordVisible)}
+        >
+          {passwordVisible ? "Hide Password" : "Show Password"}
+        </button>
 
         <p>
           Forgot your password?{" "}
           <button
             onClick={handleForgotPassword}
-            style={{ color: "blue", cursor: "pointer" }}
+            style={{ color: "white", cursor: "pointer" }}
           >
             Reset Password
           </button>

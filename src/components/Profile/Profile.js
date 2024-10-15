@@ -37,23 +37,21 @@ function Profile() {
     }, [navigate]);
 
     const handleUpdate = async () => {
-        if (!values.name) {
-            setErrorMsg("Name field cannot be empty.");
+        if (!values.name || !values.lastname) {
+            setErrorMsg("Name and Last Name fields cannot be empty.");
             return;
         }
         setErrorMsg('');
         try {
-            await updateProfile(auth.currentUser, { displayName: values.name });
+            await updateProfile(auth.currentUser, { displayName: `${values.name} ${values.lastname}` });
             await updateDoc(doc(db, "users", auth.currentUser.uid), {
                 name: values.name,
                 lastname: values.lastname,
                 phone: values.phone,
                 company: values.company,
                 position: values.position
-
-                // Note: Do not store passwords in plaintext or directly update via client side in a real app.
             });
-            setErrorMsg("Profile updated successfully.");
+            navigate('/');  // Preusmeri na Home stranicu nakon uspešnog ažuriranja
         } catch (error) {
             setErrorMsg("Error updating profile: " + error.message);
         }
@@ -62,50 +60,64 @@ function Profile() {
     return (
         <div className={styles.container}>
             <h1>Profile</h1>
-            <InputControl
-                label="Name"
-                value={values.name}
-                onChange={(event) =>
-                    setValues((prev) => ({ ...prev, name: event.target.value }))
-                }
-            />
-            <InputControl
-                label="Last Name"
-                value={values.lastname}
-                onChange={(event) =>
-                    setValues((prev) => ({ ...prev, lastname: event.target.value }))
-                }
-            />
-            <InputControl
-                label="Email"
-                value={values.email}
-                onChange={() => {}}
-                disabled={true}
-            />
-            <InputControl
-                label="Phone"
-                value={values.phone}
-                onChange={(event) =>
-                    setValues((prev) => ({ ...prev, phone: event.target.value }))
-                }
-            />
-            <InputControl
-                label="Company"
-                value={values.company}
-                onChange={(event) =>
-                    setValues((prev) => ({ ...prev, company: event.target.value }))
-                }
-            />
-            <InputControl
-                label="Position"
-                value={values.position}
-                onChange={(event) =>
-                    setValues((prev) => ({ ...prev, position: event.target.value }))
-                }
-            />
-            {errorMsg && <p className={styles.errorMsg}>{errorMsg}</p>}
-            <button onClick={handleUpdate}>Update Profile</button>
-            <button onClick={() => navigate('/')}>Back to Home</button>
+            <div className={styles.formContainer}>
+                <div className={styles.inputControl}>
+                    <label>Name</label>
+                    <InputControl
+                        value={values.name}
+                        onChange={(event) =>
+                            setValues((prev) => ({ ...prev, name: event.target.value }))
+                        }
+                    />
+                </div>
+                <div className={styles.inputControl}>
+                    <label>Last Name</label>
+                    <InputControl
+                        value={values.lastname}
+                        onChange={(event) =>
+                            setValues((prev) => ({ ...prev, lastname: event.target.value }))
+                        }
+                    />
+                </div>
+                <div className={styles.inputControl}>
+                    <label>Email</label>
+                    <InputControl
+                        value={values.email}
+                        onChange={() => {}}
+                        disabled={true}
+                    />
+                </div>
+                <div className={styles.inputControl}>
+                    <label>Phone</label>
+                    <InputControl
+                        value={values.phone}
+                        onChange={(event) =>
+                            setValues((prev) => ({ ...prev, phone: event.target.value }))
+                        }
+                    />
+                </div>
+                <div className={styles.inputControl}>
+                    <label>Company</label>
+                    <InputControl
+                        value={values.company}
+                        onChange={(event) =>
+                            setValues((prev) => ({ ...prev, company: event.target.value }))
+                        }
+                    />
+                </div>
+                <div className={styles.inputControl}>
+                    <label>Position</label>
+                    <InputControl
+                        value={values.position}
+                        onChange={(event) =>
+                            setValues((prev) => ({ ...prev, position: event.target.value }))
+                        }
+                    />
+                </div>
+                {errorMsg && <p className={styles.errorMsg}>{errorMsg}</p>}
+                <button onClick={handleUpdate}>Update Profile</button>
+                <button onClick={() => navigate('/')}>Back to Home</button>
+            </div>
         </div>
     );
 }

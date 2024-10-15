@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../../firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { db } from "../../firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 function UserBooks() {
@@ -9,6 +9,7 @@ function UserBooks() {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const auth = getAuth();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -29,7 +30,7 @@ function UserBooks() {
     });
 
     return () => unsubscribe();
-  }, [navigate]);
+  }, [navigate, auth]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -46,6 +47,7 @@ function UserBooks() {
             <li key={book.id}>
               <h2>{book.title}</h2>
               <button onClick={() => navigate(`/edit-book/${book.id}`)}>Edit</button>
+              <button onClick={() => navigate(`/delete-book/${book.id}`)}>Delete</button>
             </li>
           ))}
         </ul>
