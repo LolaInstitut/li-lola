@@ -10,6 +10,7 @@ function AddBook() {
   const [user, setUser] = useState(null);
   const [authorInputs, setAuthorInputs] = useState([""]);
   const [recenzentInputs, setRecenzentInputs] = useState([""]);
+  const [editorInputs, setEditorInputs] = useState([""]);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [publicationType, setPublicationType] = useState("Knjiga");
@@ -482,7 +483,7 @@ function AddBook() {
               <div className="section">
                 <div className="section-header">Urednici</div>
                 <div className="section-content">
-                  {recenzentInputs.map((editor, index) => (
+                  {editorInputs.map((editor, index) => (
                     <div key={index}>
                       <label>Editor {index + 1}:</label>
                       <input
@@ -490,17 +491,17 @@ function AddBook() {
                         value={editor}
                         onChange={(e) =>
                           handleInputChange(
-                            setRecenzentInputs,
+                            setEditorInputs,
                             index,
                             e.target.value
                           )
                         }
                       />
-                      {recenzentInputs.length > 1 && (
+                      {editorInputs.length > 1 && (
                         <button
                           type="button"
                           onClick={() =>
-                            handleRemoveInput(setRecenzentInputs, index)
+                            handleRemoveInput(setEditorInputs, index)
                           }
                         >
                           Remove Editor
@@ -510,7 +511,7 @@ function AddBook() {
                   ))}
                   <button
                     type="button"
-                    onClick={() => handleAddInput(setRecenzentInputs)}
+                    onClick={() => handleAddInput(setEditorInputs)}
                   >
                     Add Another Editor
                   </button>

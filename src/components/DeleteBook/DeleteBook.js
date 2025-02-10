@@ -9,6 +9,7 @@ function DeleteBook() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
+  const [bookTitle, setBookTitle] = useState('');  // Added state for book title
   const auth = getAuth();
 
   useEffect(() => {
@@ -18,10 +19,17 @@ function DeleteBook() {
         try {
           const bookDocRef = doc(db, 'books', bookId);
           const bookDoc = await getDoc(bookDocRef);
-          if (bookDoc.exists() && bookDoc.data().userId === currentUser.uid) {
-            setIsOwner(true);
+          if (bookDoc.exists()) {
+            const bookData = bookDoc.data();
+            if (bookData.userId === currentUser.uid) {
+              setIsOwner(true);
+              setBookTitle(bookData.title);  // Set the book title here
+            } else {
+              alert('You are not authorized to delete this book.');
+              navigate('/');
+            }
           } else {
-            alert('You are not authorized to delete this book.');
+            alert('Book not found.');
             navigate('/');
           }
         } catch (error) {
@@ -57,7 +65,7 @@ function DeleteBook() {
   return (
     <div>
       <h1>Delete Book</h1>
-      <p>Are you sure you want to delete this book?</p>
+      <p>Are you sure you want to delete the "{bookTitle}" book ?</p> {/* Updated to show the book title */}
       <button onClick={handleDeleteBook}>Yes, Delete</button>
       <button onClick={() => navigate('/')}>Cancel</button>
     </div>

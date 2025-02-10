@@ -100,13 +100,13 @@ function Home() {
     if (loginButtonRef.current) {
       setMenuWidth(loginButtonRef.current.offsetWidth);
     }
-  }, [loginButtonRef.current]);
+  }, []);
 
   useEffect(() => {
     if (profileButtonRef.current) {
       setMenuWidth(profileButtonRef.current.offsetWidth);
     }
-  }, [profileButtonRef.current]);
+  }, []);
 
   const handleBookTypeChange = (type) => {
     setBookTypes((prevTypes) => {

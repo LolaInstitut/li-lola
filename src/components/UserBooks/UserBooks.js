@@ -42,15 +42,25 @@ function UserBooks() {
       {books.length === 0 ? (
         <div>No books found.</div>
       ) : (
-        <ul>
-          {books.map((book) => (
-            <li key={book.id}>
-              <h2>{book.title}</h2>
-              <button onClick={() => navigate(`/edit-book/${book.id}`)}>Edit</button>
-              <button onClick={() => navigate(`/delete-book/${book.id}`)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>Book Title</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {books.map((book) => (
+              <tr key={book.id}>
+                <td>{book.title}</td>
+                <td>
+                  <button onClick={() => navigate(`/edit-book/${book.id}`)}>Edit</button>
+                  <button onClick={() => navigate(`/delete-book/${book.id}`)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
