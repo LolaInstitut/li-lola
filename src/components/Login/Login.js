@@ -27,7 +27,7 @@ function Login() {
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then(async (res) => {
         setSubmitButtonDisabled(false);
-        navigate("/home"); // Promenite ovu liniju
+        navigate("/home");
       })
       .catch((err) => {
         setSubmitButtonDisabled(false);
@@ -50,53 +50,78 @@ function Login() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.innerBox}>
-        <h1 className={styles.heading}>Login</h1>
-
-        <InputControl
-          label="Email"
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, email: event.target.value }))
-          }
-          placeholder="Enter your email address..."
-        />
-        <InputControl
-          label="Password"
-          type={passwordVisible ? "text" : "password"}
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, password: event.target.value }))
-          }
-          placeholder="Enter your password..."
-        />
-        <button
-          className={styles.showHideButton}
-          onClick={() => setPasswordVisible(!passwordVisible)}
-        >
-          {passwordVisible ? "Hide Password" : "Show Password"}
-        </button>
-
-        <p>
-          Forgot your password?{" "}
+    <div className={`${styles.container} ${document.body.classList.contains("dark-mode") ? styles["dark-mode"] : ""}`}>
+      <div className={styles.filtersSidebar}>
+        <div className={styles["admin-sidebar-menu"]}>
           <button
-            onClick={handleForgotPassword}
-            style={{ color: "white", cursor: "pointer" }}
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+            onClick={() => setPasswordVisible(!passwordVisible)}
           >
-            Reset Password
+            👁️ Prikaži lozinku
           </button>
-        </p>
+          <button
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+            onClick={handleForgotPassword}
+          >
+            🔑 Zaboravljena lozinka
+          </button>
+          <button
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+            onClick={handleSubmissions}
+            disabled={submitButtonDisabled}
+          >
+            🚪 Uloguj se
+          </button>
+          <button
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+            onClick={() => navigate("/signup")}
+          >
+            📝 Registruj se
+          </button>
+          <button
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+            onClick={() => navigate(-1)}
+          >
+            ⬅️ Vrati na prethodnu stranu
+          </button>
+        </div>
+      </div>
 
-        <div className={styles.footer}>
-          <b className={styles.error}>{errorMsg}</b>
-          <button disabled={submitButtonDisabled} onClick={handleSubmissions}>
-            Login
-          </button>
-          <p>
-            Don't have an account?{" "}
-            <span>
-              <Link to="/signup">Sign up</Link>
-            </span>
-          </p>
+      <div className={styles.mainContent}>
+        <div className={styles["admin-welcome"]}>
+          <h2>Prijava</h2>
+          <p>Unesite svoje podatke za prijavu.</p>
+        </div>
+        <div className={styles.activeView}>
+          <div className={styles.innerBox}>
+            <InputControl
+              label="Email"
+              onChange={(event) =>
+                setValues((prev) => ({ ...prev, email: event.target.value }))
+              }
+              placeholder="Unesite vašu email adresu..."
+            />
+            <InputControl
+              label="Lozinka"
+              type={passwordVisible ? "text" : "password"}
+              onChange={(event) =>
+                setValues((prev) => ({ ...prev, password: event.target.value }))
+              }
+              placeholder="Unesite vašu lozinku..."
+            />
+            <div className={styles.footer}>
+              <p className={styles.error}>{errorMsg}</p>
+              <button disabled={submitButtonDisabled} onClick={handleSubmissions}>
+                Prijavi se
+              </button>
+              <p>
+                Nemate nalog?{" "}
+                <span>
+                  <Link to="/signup">Registrujte se</Link>
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

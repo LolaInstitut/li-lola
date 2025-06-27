@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import InputControl from "../InputControl/InputControl";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../firebaseConfig";
-import { doc, setDoc } from "firebase/firestore"; // Import Firestore functions
+import { doc, setDoc } from "firebase/firestore";
 import styles from "./Signup.module.css";
 
 function Signup() {
@@ -16,14 +16,22 @@ function Signup() {
     phone: "",
     company: "",
     position: "",
-
   });
 
   const [errorMsg, setErrorMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleSubmissions = () => {
-    if (!values.name || !values.lastname || !values.email || !values.password || !values.phone || !values.company || !values.position) {
+    if (
+      !values.name ||
+      !values.lastname ||
+      !values.email ||
+      !values.password ||
+      !values.phone ||
+      !values.company ||
+      !values.position
+    ) {
       setErrorMsg("Fill all fields");
       return;
     }
@@ -63,70 +71,96 @@ function Signup() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.innerBox}>
-        <h1 className={styles.heading}>Signup</h1>
-        <InputControl
-          label="Name"
-          placeholder="Enter your name..."
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, name: event.target.value }))
-          }
-        />
-        <InputControl
-          label="Lastname"
-          placeholder="Enter your lastname..."
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, lastname: event.target.value }))
-          }
-        />
-        <InputControl
-          label="Email"
-          placeholder="Enter your email address..."
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, email: event.target.value }))
-          }
-        />
-        <InputControl
-          label="Password"
-          placeholder="Enter your password..."
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, password: event.target.value }))
-          }
-        />
-                <InputControl
-          label="Phone"
-          placeholder="Enter your phone..."
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, phone: event.target.value }))
-          }
-        />
-                <InputControl
-          label="Company"
-          placeholder="Enter your company name..."
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, company: event.target.value }))
-          }
-        />
-                <InputControl
-          label="Position"
-          placeholder="Enter your position in company..."
-          onChange={(event) =>
-            setValues((prev) => ({ ...prev, position: event.target.value }))
-          }
-        />
-
-        <div className={styles.footer}>
-          <b className={styles.errorMsg}>{errorMsg}</b>
-          <button onClick={handleSubmissions} disabled={submitButtonDisabled}>
-            Sign up
+    <div
+      className={`${styles.container} ${
+        document.body.classList.contains("dark-mode") ? styles["dark-mode"] : ""
+      }`}
+    >
+      <div className={styles.filtersSidebar}>
+        <div className={styles["admin-sidebar-menu"]}>
+          <button
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+            onClick={handleSubmissions}
+            disabled={submitButtonDisabled}
+          >
+            📝 Registruj se
           </button>
-          <p>
-            Already have an account?{" "}
-            <span>
-              <Link to="/login">Login</Link>
-            </span>
-          </p>
+          <button
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+            onClick={() => setPasswordVisible(!passwordVisible)}
+          >
+            👁️ Prikaži lozinku
+          </button>
+          <button
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+            onClick={() => navigate(-1)}
+          >
+            ⬅️ Vrati na prethodnu stranu
+          </button>
+        </div>
+      </div>
+
+      <div className={styles.mainContent}>
+        <div className={styles["admin-welcome"]}>
+          <h2>Registracija</h2>
+          <p>Unesite svoje podatke za registraciju.</p>
+        </div>
+        <div className={styles.activeView}>
+          <div className={styles.innerBox}>
+            <InputControl
+              label="Ime"
+              placeholder="Unesite vaše ime..."
+              onChange={(event) =>
+                setValues((prev) => ({ ...prev, name: event.target.value }))
+              }
+            />
+            <InputControl
+              label="Prezime"
+              placeholder="Unesite vaše prezime..."
+              onChange={(event) =>
+                setValues((prev) => ({ ...prev, lastname: event.target.value }))
+              }
+            />
+            <InputControl
+              label="Email"
+              placeholder="Unesite vašu email adresu..."
+              onChange={(event) =>
+                setValues((prev) => ({ ...prev, email: event.target.value }))
+              }
+            />
+            <InputControl
+              label="Lozinka"
+              type={passwordVisible ? "text" : "password"}
+              placeholder="Unesite vašu lozinku..."
+              onChange={(event) =>
+                setValues((prev) => ({ ...prev, password: event.target.value }))
+              }
+            />
+            <InputControl
+              label="Telefon"
+              placeholder="Unesite vaš telefon..."
+              onChange={(event) =>
+                setValues((prev) => ({ ...prev, phone: event.target.value }))
+              }
+            />
+            <InputControl
+              label="Kompanija"
+              placeholder="Unesite naziv kompanije..."
+              onChange={(event) =>
+                setValues((prev) => ({ ...prev, company: event.target.value }))
+              }
+            />
+            <InputControl
+              label="Pozicija"
+              placeholder="Unesite vašu poziciju u kompaniji..."
+              onChange={(event) =>
+                setValues((prev) => ({ ...prev, position: event.target.value }))
+              }
+            />
+            <div className={styles.footer}>
+              <p className={styles.errorMsg}>{errorMsg}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

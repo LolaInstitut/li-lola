@@ -40,6 +40,7 @@ const App = () => {
           <Route path="/userbook" element={<UserBooks />} />
           <Route path="/book/:bookId" element={<Book />} />
           <Route path="/delete-book/:bookId" element={<DeleteBook />} /> {/* Add DeleteBook route */}
+          <Route path="/book/:id" element={<Book />} />
         </Routes>
       </Router>
     </div>

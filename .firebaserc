@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "li-lola-b4c1a"
-  }
+    "default": "li-lola-b4c1a",
+    "li-lola-b4c1a": "li-lola-b4c1a"
+  },
+  "targets": {},
+  "etags": {}
 }

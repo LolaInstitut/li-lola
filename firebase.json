@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "lola-biblioteka-li-rs",
     "public": "build",
     "ignore": [
       "firebase.json",

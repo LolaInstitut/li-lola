@@ -1,46 +1,395 @@
+/* Root container for the EditBook component */
 .container {
-    display: flex;
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+.container.dark-mode {
+  background-color: #1e1e1e;
+  color: #f3f4f6;
+  scrollbar-color: #888 #1e1e1e;
+  scrollbar-width: thin;
+}
+
+.container.dark-mode::-webkit-scrollbar {
+  width: 8px;
+}
+.container.dark-mode::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+.container.dark-mode::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+/* Sidebar */
+.filtersSidebar {
+  width: 300px;
+  background-color: #fff;
+  padding: 1rem;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.container.dark-mode .filtersSidebar {
+  background-color: #111827;
+  color: #f3f4f6;
+  border-right-color: #4b5563;
+}
+
+/* Sidebar title (user profile) */
+.admin-sidebar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.admin-sidebar-title:hover {
+  background-color: #e5e7eb;
+  transform: scale(1.02);
+}
+
+.container.dark-mode .admin-sidebar-title:hover {
+  background-color: #374151;
+}
+
+.admin-sidebar-title img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.admin-sidebar-title h2 {
+  margin: 0.5rem 0 0;
+  font-size: 1.2rem;
+}
+
+.admin-sidebar-title p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.container.dark-mode .admin-sidebar-title p {
+  color: #9ca3af;
+}
+
+/* Sidebar menu */
+.admin-sidebar-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Add spacing between menu items */
+}
+
+/* Sidebar menu buttons */
+.admin-sidebar-btn {
+  background: #e5e7eb;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.admin-sidebar-btn:hover {
+  background: #d1d5db;
+}
+
+.container.dark-mode .admin-sidebar-btn {
+  background: #374151;
+  color: white;
+}
+
+.container.dark-mode .admin-sidebar-btn:hover {
+  background: #4b5563;
+}
+
+/* Organization button styling */
+.organization-btn {
+  background: #e5e7eb;
+}
+
+.container.dark-mode .organization-btn {
+  background: #374151;
+}
+
+/* Main content area */
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  min-height: 0; /* Ensure it can shrink */
+}
+
+/* Welcome section */
+.admin-welcome {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-welcome h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-welcome p {
+  margin-bottom: 1.5rem;
+}
+
+/* Active view for centered content */
+.activeView {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Form container */
+.formContainer {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.container.dark-mode .formContainer {
+  background: #2e2e2e;
+  color: #f3f4f6;
+}
+
+/* Section */
+.section {
+  margin-bottom: 1.5rem;
+}
+
+/* Section header */
+.section-header {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.container.dark-mode .section-header {
+  color: #f3f4f6;
+}
+
+/* Section content */
+.section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.section-content label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.container.dark-mode .section-content label {
+  color: #d1d5db;
+}
+
+.section-content input,
+.section-content select,
+.section-content textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.section-content input:focus,
+.section-content select:focus,
+.section-content textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+.container.dark-mode .section-content input,
+.container.dark-mode .section-content select,
+.container.dark-mode .section-content textarea {
+  background: #374151;
+  color: #f3f4f6;
+  border-color: #4b5563;
+}
+
+.container.dark-mode .section-content input:focus,
+.container.dark-mode .section-content select:focus,
+.container.dark-mode .section-content textarea:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 5px rgba(96, 165, 250, 0.5);
+}
+
+/* Section divider */
+.section-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 1rem 0;
+}
+
+.container.dark-mode .section-divider {
+  background: #4b5563;
+}
+
+/* Author, Editor, Reviewer container */
+.authorEditorReviewerContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Add author button */
+.addAuthorButton {
+  padding: 0.25rem 0.5rem;
+  background: #10b981;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.addAuthorButton:hover {
+  background: #059669;
+}
+
+.container.dark-mode .addAuthorButton {
+  background: #047857;
+}
+
+.container.dark-mode .addAuthorButton:hover {
+  background: #065f46;
+}
+
+/* Remove author button */
+.removeAuthorButton {
+  padding: 0.25rem 0.5rem;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.removeAuthorButton:hover {
+  background: #dc2626;
+}
+
+.container.dark-mode .removeAuthorButton {
+  background: #991b1b;
+}
+
+.container.dark-mode .removeAuthorButton:hover {
+  background: #7f1d1d;
+}
+
+/* Custom input */
+.customInput {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.customInput:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+.container.dark-mode .customInput {
+  background: #374151;
+  color: #f3f4f6;
+  border-color: #4b5563;
+}
+
+.container.dark-mode .customInput:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 5px rgba(96, 165, 250, 0.5);
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+.container.dark-mode .loading {
+  color: #f3f4f6;
+}
+
+/* Animation for fade-in effect */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .filtersSidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    padding: 0.5rem;
   }
-  
-  .form-container {
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+
+  .container.dark-mode .filtersSidebar {
+    border-bottom-color: #4b5563;
   }
-  
-  h2 {
-    margin-bottom: 20px;
+
+  .mainContent {
+    padding: 1rem;
   }
-  
-  label {
-    display: block;
-    margin-bottom: 10px;
+
+  .formContainer {
+    padding: 1rem;
+    gap: 1rem;
   }
-  
-  input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+
+  .section-content input,
+  .section-content select,
+  .section-content textarea {
+    font-size: 0.875rem;
   }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+
+  .customInput {
+    font-size: 0.875rem;
   }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+}

@@ -1,85 +1,288 @@
+/* Root container for the Profile component */
 .container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+  }
+  
+  .container.dark-mode {
+    background-color: #1e1e1e;
+    color: #f3f4f6;
+    scrollbar-color: #888 #1e1e1e;
+    scrollbar-width: thin;
+  }
+  
+  .container.dark-mode::-webkit-scrollbar {
+    width: 8px;
+  }
+  .container.dark-mode::-webkit-scrollbar-track {
+    background: #1e1e1e;
+  }
+  .container.dark-mode::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  /* Sidebar */
+  .filtersSidebar {
+    width: 300px;
+    background-color: #fff;
+    padding: 1rem;
+    border-right: 1px solid #e5e7eb;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f5f5f5;
-    padding: 10px;
-}
-
-.form-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr; /* Prva kolona za label, druga za input */
-    gap: 20px;
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    background-color: white;
+    gap: 1rem;
+  }
+  
+  .container.dark-mode .filtersSidebar {
+    background-color: #111827;
+    color: #f3f4f6;
+    border-right-color: #4b5563;
+  }
+  
+  /* Sidebar title (user profile) */
+  .admin-sidebar-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    padding: 0.5rem;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-sidebar-title:hover {
+    background-color: #e5e7eb;
+    transform: scale(1.02);
+  }
+  
+  .container.dark-mode .admin-sidebar-title:hover {
+    background-color: #374151;
+  }
+  
+  .admin-sidebar-title img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+  
+  .admin-sidebar-title h2 {
+    margin: 0.5rem 0 0;
+    font-size: 1.2rem;
+  }
+  
+  .admin-sidebar-title p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+  
+  .container.dark-mode .admin-sidebar-title p {
+    color: #9ca3af;
+  }
+  
+  /* Sidebar menu */
+  .admin-sidebar-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Add spacing between menu items */
+  }
+  
+  /* Sidebar menu buttons */
+  .admin-sidebar-btn {
+    background: #e5e7eb;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .admin-sidebar-btn:hover {
+    background: #d1d5db;
+  }
+  
+  .container.dark-mode .admin-sidebar-btn {
+    background: #374151;
+    color: white;
+  }
+  
+  .container.dark-mode .admin-sidebar-btn:hover {
+    background: #4b5563;
+  }
+  
+  /* Organization button styling */
+  .organization-btn {
+    background: #e5e7eb;
+  }
+  
+  .container.dark-mode .organization-btn {
+    background: #374151;
+  }
+  
+  /* Main content area */
+  .mainContent {
+    flex: 1;
+    padding: 2rem;
     overflow-y: auto;
-}
-
-.inputControl {
-    display: contents;
-}
-
-.inputControl label {
-    align-self: center; /* Poravnanje labela po vertikali */
-}
-
-.inputControl input {
-    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Welcome section */
+  .admin-welcome {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .admin-welcome h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .admin-welcome p {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Active view for centered content */
+  .activeView {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100% - 200px); /* Adjust based on header/footer height */
+  }
+  
+  /* Form container */
+  .formContainer {
+    width: 100%;
+    max-width: 600px; /* Match AddBook's form width */
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .container.dark-mode .formContainer {
+    background: #2e2e2e;
+    color: #f3f4f6;
+  }
+  
+  /* Input control */
+  .inputControl {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .inputControl label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4b5563;
+  }
+  
+  .container.dark-mode .inputControl label {
+    color: #d1d5db;
+  }
+  
+  .inputControl input {
+    padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 100%;
-}
-
-h1 {
-    grid-column: span 2; /* Naslov će zauzeti obe kolone */
-    margin-bottom: 20px;
-    color: #5a2a82;
-    text-align: center; /* Centriranje naslova */
-}
-
-.errorMsg {
-    grid-column: span 2; /* Error poruka će zauzeti obe kolone */
-    color: red;
-    margin-bottom: 20px;
-}
-
-button {
-    grid-column: span 2; /* Dugmad će zauzeti obe kolone */
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-@media (max-width: 768px) {
-    .form-container {
-        grid-template-columns: 1fr; /* Jedna kolona na manjim ekranima */
-        padding: 15px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .inputControl input:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+  
+  .container.dark-mode .inputControl input {
+    background: #374151;
+    color: #f3f4f6;
+    border-color: #4b5563;
+  }
+  
+  .container.dark-mode .inputControl input:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 5px rgba(96, 165, 250, 0.5);
+  }
+  
+  .inputControl input:disabled {
+    background: #e5e7eb;
+    color: #6b7280;
+  }
+  
+  .container.dark-mode .inputControl input:disabled {
+    background: #4b5563;
+    color: #9ca3af;
+  }
+  
+  /* Error message */
+  .errorMsg {
+    font-size: 0.9rem;
+    color: #ef4444;
+    text-align: center;
+  }
+  
+  .container.dark-mode .errorMsg {
+    color: #f87171;
+  }
+  
+  /* Animation for fade-in effect */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      height: auto;
     }
-
-    .inputControl {
-        display: flex;
-        flex-direction: column;
+  
+    .filtersSidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #e5e7eb;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0.5rem;
     }
-
-    label, button {
-        font-size: 14px;
+  
+    .container.dark-mode .filtersSidebar {
+      border-bottom-color: #4b5563;
     }
-
-    h1 {
-        font-size: 18px;
+  
+    .mainContent {
+      padding: 1rem;
     }
-}
+  
+    .formContainer {
+      padding: 1rem;
+      gap: 1rem;
+    }
+  
+    .inputControl input {
+      font-size: 0.875rem;
+    }
+  }

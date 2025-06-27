@@ -1,79 +1,291 @@
-/* Osnovni stil za glavnu .container klasu */
+/* Root container for the Book component */
 .container {
   display: flex;
-  justify-content: center; /* Horizontalno centriranje */
-  align-items: center; /* Vertikalno centriranje */
-  min-height: 100vh; /* Koristi min-height umesto height za punu visinu ekrana */
-  background-color: #f5f5f5;
-  padding: 20px; /* Daje malo prostora oko sadržaja */
+  min-height: 100vh; /* Changed from height */
+  font-family: 'Roboto', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
 }
 
-/* Stil za tabelu */
+.container.dark-mode {
+  background-color: #1e1e1e;
+  color: #f3f4f6;
+  scrollbar-color: #888 #1e1e1e;
+  scrollbar-width: thin;
+}
+
+.container.dark-mode::-webkit-scrollbar {
+  width: 8px;
+}
+.container.dark-mode::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+.container.dark-mode::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+/* Sidebar */
+.filtersSidebar {
+  width: 300px;
+  background-color: #fff;
+  padding: 1rem;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.container.dark-mode .filtersSidebar {
+  background-color: #111827;
+  color: #f3f4f6;
+  border-right-color: #4b5563;
+}
+
+/* Sidebar title (user profile) */
+.admin-sidebar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.admin-sidebar-title:hover {
+  background-color: #e5e7eb;
+  transform: scale(1.02);
+}
+
+.container.dark-mode .admin-sidebar-title:hover {
+  background-color: #374151;
+}
+
+.admin-sidebar-title img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.admin-sidebar-title h2 {
+  margin: 0.5rem 0 0;
+  font-size: 1.2rem;
+}
+
+.admin-sidebar-title p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.container.dark-mode .admin-sidebar-title p {
+  color: #9ca3af;
+}
+
+/* Sidebar menu */
+.admin-sidebar-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Add spacing between menu items */
+}
+
+/* Sidebar menu buttons */
+.admin-sidebar-btn {
+  background: #e5e7eb;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.admin-sidebar-btn:hover {
+  background: #d1d5db;
+}
+
+.container.dark-mode .admin-sidebar-btn {
+  background: #374151;
+  color: white;
+}
+
+.container.dark-mode .admin-sidebar-btn:hover {
+  background: #4b5563;
+}
+
+/* Organization button styling */
+.organization-btn {
+  background: #e5e7eb;
+}
+
+.container.dark-mode .organization-btn {
+  background: #374151;
+}
+
+/* Main content area */
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  min-height: 0; /* Ensure it can shrink */
+}
+
+/* Welcome section */
+.admin-welcome {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-welcome h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-welcome p {
+  margin-bottom: 1.5rem;
+}
+
+/* Active view for centered content */
+.activeView {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* Removed height */
+}
+
+/* Book details */
+.bookDetails {
+  width: 100%;
+  max-width: 100%; /* Allow it to take full width if needed */
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.container.dark-mode .bookDetails {
+  background: #2e2e2e;
+  color: #f3f4f6;
+}
+
+/* Invisible table */
 .invisibleTable {
   width: 100%;
-  max-width: 800px; /* Maksimalna širina tabele */
   border-collapse: collapse;
-  margin: 0 auto; /* Centriranje tabele */
+  background: transparent;
 }
 
-/* Stil za ćelije tabele */
 .invisibleTable td {
-  padding: 8px;
-  border: none; /* Uklanja ivice tabele */
-  text-align: center; /* Centriranje sadržaja unutar ćelija */
-  vertical-align: middle; /* Vertikalno centriranje sadržaja ćelije */
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  color: #4b5563;
 }
 
-/* Stil za slike unutar tabele */
-.invisibleTable img {
-  max-width: 100px; /* Prilagodite veličinu slike po potrebi */
-  display: block; /* Izbegava razmak oko slike */
-  margin: 0 auto; /* Centriranje slike */
+.container.dark-mode .invisibleTable td {
+  color: #d1d5db;
 }
 
-/* Stil za zaglavlje */
-h2 {
-  color: #5a2a82;
-  text-align: center; /* Centriranje naslova */
+.invisibleTable td:first-child {
+  font-weight: 600;
+  width: 30%;
 }
 
-/* Responsive prilagođavanje za manje ekrane */
+.invisibleTable a {
+  color: #3b82f6;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.invisibleTable a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.container.dark-mode .invisibleTable a {
+  color: #60a5fa;
+}
+
+.container.dark-mode .invisibleTable a:hover {
+  color: #3b82f6;
+}
+
+/* Cover image */
+.coverImage {
+  max-width: 200px;
+  max-height: 300px;
+  object-fit: contain;
+}
+
+.container.dark-mode .coverImage {
+  filter: brightness(0.9); /* Slight adjustment for dark mode */
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+.container.dark-mode .loading {
+  color: #f3f4f6;
+}
+
+/* Animation for fade-in effect */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
   .container {
-    padding: 15px;
+    flex-direction: column;
+    height: auto;
   }
 
-  .invisibleTable {
-    max-width: 100%; /* Tabela koristi punu širinu na manjim ekranima */
+  .filtersSidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  .container.dark-mode .filtersSidebar {
+    border-bottom-color: #4b5563;
+  }
+
+  .mainContent {
+    padding: 1rem;
+  }
+
+  .bookDetails {
+    padding: 1rem;
+    gap: 1rem;
   }
 
   .invisibleTable td {
-    padding: 12px; /* Povećaj padding za bolju preglednost na manjim ekranima */
+    font-size: 0.875rem;
   }
 
-  .invisibleTable img {
-    max-width: 80px; /* Manje slike na manjim ekranima */
-  }
-
-  h2 {
-    font-size: 20px; /* Manji font za naslove */
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 10px;
-  }
-
-  .invisibleTable td {
-    padding: 10px; /* Još veći padding za vrlo male ekrane */
-  }
-
-  .invisibleTable img {
-    max-width: 60px; /* Još manje slike za vrlo male ekrane */
-  }
-
-  h2 {
-    font-size: 18px; /* Još manji font za naslove */
+  .coverImage {
+    max-width: 150px;
+    max-height: 225px;
   }
 }

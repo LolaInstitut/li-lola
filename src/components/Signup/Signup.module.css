@@ -1,74 +1,330 @@
-.container{
-    height: 100%;
-    min-height: 100vh;
+/* Root container for the Signup component */
+.container {
+    display: flex;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+    padding: 20px;
+  }
+  
+  .container.dark-mode {
+    background-color: #1e1e1e;
+    color: #f3f4f6;
+    scrollbar-color: #888 #1e1e1e;
+    scrollbar-width: thin;
+  }
+  
+  .container.dark-mode::-webkit-scrollbar {
+    width: 8px;
+  }
+  .container.dark-mode::-webkit-scrollbar-track {
+    background: #1e1e1e;
+  }
+  .container.dark-mode::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  /* Sidebar */
+  .filtersSidebar {
+    width: 300px;
+    background-color: #fff;
+    padding: 1rem;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .container.dark-mode .filtersSidebar {
+    background-color: #111827;
+    color: #f3f4f6;
+    border-right-color: #4b5563;
+  }
+  
+  /* Sidebar title (user profile) */
+  .admin-sidebar-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    padding: 0.5rem;
+    border-radius: 8px;
+  }
+  
+  .admin-sidebar-title:hover {
+    background-color: #e5e7eb;
+    transform: scale(1.02);
+  }
+  
+  .container.dark-mode .admin-sidebar-title:hover {
+    background-color: #374151;
+  }
+  
+  .admin-sidebar-title img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+  
+  .admin-sidebar-title h2 {
+    margin: 0.5rem 0 0;
+    font-size: 1.2rem;
+  }
+  
+  .admin-sidebar-title p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+  
+  .container.dark-mode .admin-sidebar-title p {
+    color: #9ca3af;
+  }
+  
+  /* Sidebar menu */
+  .admin-sidebar-menu {
     width: 100%;
-    background: linear-gradient(to right, purple, #cc80ff);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Add spacing between menu items */
+  }
+  
+  /* Sidebar menu buttons */
+  .admin-sidebar-btn {
+    background: #e5e7eb;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .admin-sidebar-btn:hover {
+    background: #d1d5db;
+  }
+  
+  .container.dark-mode .admin-sidebar-btn {
+    background: #374151;
+    color: white;
+  }
+  
+  .container.dark-mode .admin-sidebar-btn:hover {
+    background: #4b5563;
+  }
+  
+  /* Organization button styling */
+  .organization-btn {
+    background: #e5e7eb;
+  }
+  
+  .container.dark-mode .organization-btn {
+    background: #374151;
+  }
+  
+  /* Main content area */
+  .mainContent {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Welcome section */
+  .admin-welcome {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .admin-welcome h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .admin-welcome p {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Active view for centered content */
+  .activeView {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.innerBox{
-    min-width: 480px;
+    width: 100%;
+  }
+  
+  /* Inner box for the signup form */
+  .innerBox {
+    width: 100%;
+    max-width: 600px;
     height: fit-content;
-    width: fit-content;
     background-color: #fff;
-    box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-    padding: 30px;
-    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    cursor: pointer;
-}
-
-.footer{
-
+    gap: 1.5rem;
+  }
+  
+  .container.dark-mode .innerBox {
+    background: #2e2e2e;
+    color: #f3f4f6;
+  }
+  
+  /* Footer section */
+  .footer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    
-}
-
-.footer .error{
-    font-weight: bold;
-    font-display: 0.875rem;
-    color: #ff3300;
+    gap: 1.5rem;
+  }
+  
+  /* Error message */
+  .errorMsg {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #ef4444;
     text-align: center;
-}
-
-.footer button{
+  }
+  
+  .container.dark-mode .errorMsg {
+    color: #f87171;
+  }
+  
+  /* Submit button */
+  .footer button {
     outline: none;
     border: none;
-    background-color: #9900ff;
+    background-color: #3b82f6;
     color: #fff;
-    border-radius: 5px;
-    font-weight: bold;
+    border-radius: 4px;
+    font-weight: 500;
     font-size: 1rem;
-    padding: 10px 16px;
+    padding: 0.5rem 1rem;
     width: 100%;
-    transition: 100ms;
-}
-
-.footer button:disabled{
-    background-color: gray !important;
-}
-
-.footer button:hover{
-    background-color: #cc80ff;
-}
-
-.footer p{
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .footer button:disabled {
+    background-color: #9ca3af !important;
+  }
+  
+  .footer button:hover {
+    background-color: #2563eb;
+  }
+  
+  .container.dark-mode .footer button {
+    background-color: #2563eb;
+  }
+  
+  .container.dark-mode .footer button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* Footer text */
+  .footer p {
     font-weight: 700;
-    color: #000;
-}
-
-.footer p span a{
-    font-weight: bold;
-    color: #9900ff;
-    letter-spacing: 1px;
+    color: #1f2937;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  
+  .container.dark-mode .footer p {
+    color: #f3f4f6;
+  }
+  
+  /* Link within footer text */
+  .footer p span a {
+    font-weight: 600;
+    color: #3b82f6;
     font-size: 1rem;
-}
-
-
-
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .footer p span a:hover {
+    color: #2563eb;
+  }
+  
+  .container.dark-mode .footer p span a {
+    color: #60a5fa;
+  }
+  
+  .container.dark-mode .footer p span a:hover {
+    color: #3b82f6;
+  }
+  
+  /* Animation for fade-in effect */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      height: auto;
+      padding: 10px;
+    }
+  
+    .filtersSidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #e5e7eb;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+  
+    .container.dark-mode .filtersSidebar {
+      border-bottom-color: #4b5563;
+    }
+  
+    .mainContent {
+      padding: 1rem;
+    }
+  
+    .innerBox {
+      padding: 1rem;
+      gap: 1rem;
+    }
+  
+    .footer button {
+      font-size: 0.875rem;
+      padding: 8px 12px;
+    }
+  
+    .footer p {
+      font-size: 0.875rem;
+    }
+  
+    .footer p span a {
+      font-size: 0.875rem;
+    }
+  
+    .admin-sidebar-menu {
+      flex-direction: row;
+      gap: 0.3rem;
+    }
+  
+    .admin-sidebar-btn {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.9rem;
+    }
+  }
