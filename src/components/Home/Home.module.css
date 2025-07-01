@@ -763,3 +763,74 @@
   font-size: 14px;
   margin: 10px 0 5px;
 }
+
+/* Existing styles remain unchanged */
+
+/* Rented books submenu */
+.admin-sidebar-subsubmenu {
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.admin-sidebar-subsubmenu h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.admin-sidebar-subsubmenu p {
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+  color: #374151;
+}
+
+.container.dark-mode .admin-sidebar-subsubmenu p {
+  color: #d1d5db;
+}
+
+/* Existing styles remain unchanged */
+
+/* Ensure submenu and subsubmenu styles are present */
+.admin-sidebar-submenu {
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+}
+
+.admin-sidebar-subbtn {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.container.dark-mode .admin-sidebar-subbtn {
+  color: #d1d5db;
+}
+
+.admin-sidebar-subsubmenu {
+  padding-left: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.admin-sidebar-subsubmenu h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.admin-sidebar-subsubmenu p {
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+  color: #374151;
+}
+
+.container.dark-mode .admin-sidebar-subsubmenu p {
+  color: #d1d5db;
+}

@@ -5,13 +5,15 @@ import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import Home from "./components/Home/Home";
 import Book from "./components/Book/Book";
+import BookBook from "./components/BookBook/BookBook";
 import { getAuth } from "firebase/auth";
 import Logout from "./components/Logout/Logout";
 import Profile from "./components/Profile/Profile";
 import AddBook from "./components/AddBook/AddBook";
 import EditBook from "./components/EditBook/EditBook";
 import UserBooks from "./components/UserBooks/UserBooks";
-import DeleteBook from "./components/DeleteBook/DeleteBook"; // Import DeleteBook component
+import DeleteBook from "./components/DeleteBook/DeleteBook";
+import RentedBooks from "./components/RentedBooks/RentedBooks";
 
 const App = () => {
   const [userName, setUserName] = useState("");
@@ -20,8 +22,10 @@ const App = () => {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        setUserName(user.displayName);
-      } else setUserName("");
+        setUserName(user.displayName || user.email.split("@")[0]);
+      } else {
+        setUserName("");
+      }
     });
   }, [auth]);
 
@@ -39,8 +43,9 @@ const App = () => {
           <Route path="/edit-book/:bookId" element={<EditBook />} />
           <Route path="/userbook" element={<UserBooks />} />
           <Route path="/book/:bookId" element={<Book />} />
-          <Route path="/delete-book/:bookId" element={<DeleteBook />} /> {/* Add DeleteBook route */}
-          <Route path="/book/:id" element={<Book />} />
+          <Route path="/delete-book/:bookId" element={<DeleteBook />} />
+          <Route path="/bookbook/:bookId?" element={<BookBook />} />
+          <Route path="/rented-books" element={<RentedBooks />} />
         </Routes>
       </Router>
     </div>

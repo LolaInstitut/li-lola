@@ -1,4 +1,4 @@
-/* Root container for the UserBooks component */
+/* Root container for the Book component */
 .container {
   display: flex;
   min-height: 100vh; /* Changed from height */
@@ -163,8 +163,8 @@
   /* Removed height */
 }
 
-/* Books list */
-.booksList {
+/* Book details */
+.bookDetails {
   width: 100%;
   max-width: 100%; /* Allow it to take full width if needed */
   padding: 2rem;
@@ -176,104 +176,72 @@
   gap: 1.5rem;
 }
 
-.container.dark-mode .booksList {
+.container.dark-mode .bookDetails {
   background: #2e2e2e;
   color: #f3f4f6;
 }
 
-/* Books table */
-.booksTable {
+/* Invisible table */
+.invisibleTable {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  background: transparent;
 }
 
-.container.dark-mode .booksTable {
-  background: #2e2e2e;
-}
-
-.booksTable thead {
-  background: #e5e7eb;
-}
-
-.container.dark-mode .booksTable thead {
-  background: #374151;
-}
-
-.booksTable th {
-  padding: 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: left;
-  color: #1f2937;
-}
-
-.container.dark-mode .booksTable th {
-  color: #f3f4f6;
-}
-
-.booksTable tr {
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.container.dark-mode .booksTable tr {
-  border-bottom: 1px solid #4b5563;
-}
-
-.booksTable td {
+.invisibleTable td {
   padding: 0.5rem;
   font-size: 0.9rem;
   color: #4b5563;
 }
 
-.container.dark-mode .booksTable td {
+.container.dark-mode .invisibleTable td {
   color: #d1d5db;
 }
 
-.booksTable button {
-  padding: 0.25rem 0.5rem;
-  margin-right: 0.5rem;
-  background: #3b82f6;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+.invisibleTable td:first-child {
+  font-weight: 600;
+  width: 30%;
 }
 
-.booksTable button:hover {
-  background: #2563eb;
-}
-
-.container.dark-mode .booksTable button {
-  background: #2563eb;
-}
-
-.container.dark-mode .booksTable button:hover {
-  background: #1d4ed8;
-}
-
-/* Book title link */
-.bookTitleLink {
+.invisibleTable a {
   color: #3b82f6;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.bookTitleLink:hover {
+.invisibleTable a:hover {
   color: #2563eb;
   text-decoration: underline;
 }
 
-.container.dark-mode .bookTitleLink {
+.container.dark-mode .invisibleTable a {
   color: #60a5fa;
 }
 
-.container.dark-mode .bookTitleLink:hover {
+.container.dark-mode .invisibleTable a:hover {
   color: #3b82f6;
+}
+
+/* Cover image */
+.coverImage {
+  max-width: 200px;
+  max-height: 300px;
+  object-fit: contain;
+}
+
+.container.dark-mode .coverImage {
+  filter: brightness(0.9); /* Slight adjustment for dark mode */
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+.container.dark-mode .loading {
+  color: #f3f4f6;
 }
 
 /* Animation for fade-in effect */
@@ -307,98 +275,168 @@
     padding: 1rem;
   }
 
-  .booksList {
+  .bookDetails {
     padding: 1rem;
     gap: 1rem;
   }
 
-  .booksTable {
-    display: block;
-    overflow-x: auto;
-  }
-
-  .booksTable thead {
-    display: none;
-  }
-
-  .booksTable tbody tr {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #e5e7eb;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-  }
-
-  .container.dark-mode .booksTable tbody tr {
-    border-color: #4b5563;
-  }
-
-  .booksTable td {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem;
-    border-bottom: none;
-  }
-
-  .booksTable td:before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: #1f2937;
-    margin-right: 0.5rem;
-  }
-
-  .container.dark-mode .booksTable td:before {
-    color: #f3f4f6;
-  }
-
-  .booksTable button {
-    font-size: 0.875rem;
-    padding: 0.25rem 0.375rem;
-  }
-
-  .bookTitleLink {
+  .invisibleTable td {
     font-size: 0.875rem;
   }
-}
 
-.loaderContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #f9fafb;
-  z-index: 9999;
-}
-
-.dancingLetters {
-  display: flex;
-  gap: 2px;
-}
-
-.letter {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #443c8c;
-  display: inline-block;
-  animation: bounce 0.6s ease infinite;
-  text-transform: uppercase;
-  font-family: 'Roboto', sans-serif;
-}
-
-.container.dark-mode .letter {
-  color: #443c8c;
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
+  .coverImage {
+    max-width: 150px;
+    max-height: 225px;
   }
-  50% {
-    transform: translateY(-20px);
-  }
+}
+
+/* Existing styles remain unchanged */
+
+/* Error and success messages */
+.errorMsg {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #ef4444;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.container.dark-mode .errorMsg {
+  color: #f87171;
+}
+
+.successMsg {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #10b981;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.container.dark-mode .successMsg {
+  color: #34d399;
+}
+
+.selectInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.numberInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.formContainer {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.inputControl {
+  margin-bottom: 20px;
+}
+
+.inputControl label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.errorMsg {
+  color: red;
+  margin-top: 10px;
+}
+
+.successMsg {
+  color: green;
+  margin-top: 10px;
+}
+
+.formContainer {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.inputControl {
+  margin-bottom: 20px;
+}
+
+.inputControl label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.numberInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.errorMsg {
+  color: red;
+  margin: 10px 0;
+}
+
+.successMsg {
+  color: green;
+  margin: 10px 0;
+}
+
+.formButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.rentalHistory {
+  margin-top: 30px;
+}
+
+.rentalTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.rentalTable th,
+.rentalTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.rentalTable th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.rentalTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.dark-mode .rentalTable th {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode .rentalTable tr:nth-child(even) {
+  background-color: #444;
+}
+
+.dark-mode .rentalTable td,
+.dark-mode .rentalTable th {
+  border-color: #555;
 }

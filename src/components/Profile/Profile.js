@@ -4,7 +4,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import InputControl from "../InputControl/InputControl";
 import { useNavigate } from "react-router-dom";
-import { ChevronDown, ChevronRight } from "lucide-react"; // Import icons
+import { ChevronDown, ChevronRight } from "lucide-react";
 import styles from "./Profile.module.css";
 
 function Profile() {
@@ -19,7 +19,9 @@ function Profile() {
   });
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false); // Added darkMode state
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
 
   useEffect(() => {
     if (auth.currentUser) {
@@ -27,7 +29,8 @@ function Profile() {
       const fetchData = async () => {
         const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
         if (userDoc.exists()) {
-          setValues(userDoc.data());
+          const userData = userDoc.data();
+          setValues(userData);
         } else {
           setErrorMsg("No user data found.");
         }
@@ -37,6 +40,16 @@ function Profile() {
       navigate("/login");
     }
   }, [navigate]);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("darkMode", "true");
+    } else {
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("darkMode", "false");
+    }
+  }, [darkMode]);
 
   const handleUpdate = async () => {
     if (!values.name || !values.lastname) {
@@ -73,8 +86,8 @@ function Profile() {
           className={styles["admin-sidebar-title"]}
           onClick={() => navigate("/profile")}
         >
-          <img src="https://via.placeholder.com/32" alt="Profile" />
-          <h2>{user.email.split("@")[0]}</h2> {/* Use email as placeholder */}
+          <img src="/user.png" alt="Profile" />
+          <h2>{user.email.split("@")[0]}</h2>
         </div>
         <div className={styles["admin-sidebar-menu"]}>
           <button
@@ -82,6 +95,12 @@ function Profile() {
             className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
           >
             🔄 Izmeni podatke profila
+          </button>
+          <button
+            onClick={() => navigate("/userbook")}
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+          >
+            📖 Knjige korisnika
           </button>
           <button
             onClick={() => navigate("/")}

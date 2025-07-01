@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Added Link import
+import { Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../../firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { ChevronDown, ChevronRight } from "lucide-react"; // Import icons
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import styles from "./UserBooks.module.css";
 
 function UserBooks() {
   const [user, setUser] = useState(null);
+  const [userName, setUserName] = useState("Korisnik");
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const auth = getAuth();
-  const [darkMode, setDarkMode] = useState(false); // Added darkMode state
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         try {
+          const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserName(userData.name || currentUser.email.split("@")[0] || "Korisnik");
+          }
           const q = query(
             collection(db, "books"),
             where("userId", "==", currentUser.uid)
@@ -41,8 +49,32 @@ function UserBooks() {
     return () => unsubscribe();
   }, [navigate, auth]);
 
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("darkMode", "true");
+    } else {
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("darkMode", "false");
+    }
+  }, [darkMode]);
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.loaderContainer}>
+        <div className={styles.dancingLetters}>
+          {"LOLA Institut".split("").map((letter, index) => (
+            <span
+              key={index}
+              className={styles.letter}
+              style={{ animationDelay: `${index * 0.15}s` }}
+            >
+              {letter === " " ? "\u00A0" : letter}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -53,8 +85,8 @@ function UserBooks() {
           className={styles["admin-sidebar-title"]}
           onClick={() => navigate("/profile")}
         >
-          <img src="https://via.placeholder.com/32" alt="Profile" />
-          <h2>{user.email.split("@")[0]}</h2> {/* Use email as placeholder */}
+          <img src="/user.png" alt="Profile" />
+          <h2>{userName}</h2>
         </div>
         <div className={styles["admin-sidebar-menu"]}>
           <button
@@ -81,13 +113,12 @@ function UserBooks() {
       {/* Main Content */}
       <div className={styles.mainContent}>
         <div className={styles["admin-welcome"]}>
-          <h2>Your Books</h2>
-          <p>Pregledaj svoje knjige.</p>
+          <h2>Pregledaj svoje knjige</h2>
         </div>
         <div className={styles.activeView}>
           <div className={styles.booksList}>
             {books.length === 0 ? (
-              <div>No books found.</div>
+              <div>Nema dodatih knjiga.</div>
             ) : (
               <table className={styles.booksTable}>
                 <thead>

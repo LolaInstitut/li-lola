@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, addDoc, getDocs, query, orderBy, limit } from "firebase/firestore"; // Added 'limit' import
+import { collection, addDoc, getDocs, query, orderBy, limit, doc, getDoc } from "firebase/firestore";
 import styles from "./AddBook.module.css";
 
 function AddBook() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [step, setStep] = useState(1); // Track the current step
+  const [userName, setUserName] = useState("Korisnik");
+  const [step, setStep] = useState(1);
   const [authorInputs, setAuthorInputs] = useState([""]);
   const [recenzentInputs, setRecenzentInputs] = useState([""]);
   const [editorInputs, setEditorInputs] = useState([""]);
@@ -32,7 +33,7 @@ function AddBook() {
   const [shelf, setShelf] = useState("");
   const [row, setRow] = useState("");
   const [coverImage, setCoverImage] = useState(null);
-  const [inventoryNumber, setInventoryNumber] = useState(""); // Will be auto-generated
+  const [inventoryNumber, setInventoryNumber] = useState("");
   const [signature, setSignature] = useState("");
   const [faculty, setFaculty] = useState("");
   const [defenseDate, setDefenseDate] = useState("");
@@ -43,13 +44,20 @@ function AddBook() {
   const [conferenceCountry, setConferenceCountry] = useState("");
   const [domaciStrani, setDomaciStrani] = useState("");
   const fileInputRef = useRef(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setUserName(userData.name || currentUser.email.split("@")[0] || "Korisnik");
+        }
       } else {
         navigate("/login");
       }
@@ -58,7 +66,16 @@ function AddBook() {
     return () => unsubscribe();
   }, [navigate]);
 
-  // Fetch the latest inventory number on component mount
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("darkMode", "true");
+    } else {
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("darkMode", "false");
+    }
+  }, [darkMode]);
+
   useEffect(() => {
     const fetchLatestInventoryNumber = async () => {
       try {
@@ -69,7 +86,7 @@ function AddBook() {
         setInventoryNumber((latestInventoryNumber + 1).toString());
       } catch (error) {
         console.error("Error fetching latest inventory number: ", error);
-        setInventoryNumber("171"); // Default to 171 if fetch fails
+        setInventoryNumber("171");
       }
     };
 
@@ -78,7 +95,7 @@ function AddBook() {
 
   const validateStep = () => {
     if (step === 1) {
-      return signature && title && publicationType && language; // Removed inventoryNumber from validation
+      return signature && title && publicationType && language;
     }
     if (step === 2) {
       return (
@@ -90,7 +107,7 @@ function AddBook() {
         row
       );
     }
-    return true; // Step 3 has optional fields
+    return true;
   };
 
   const handleNextStep = () => {
@@ -129,7 +146,7 @@ function AddBook() {
       authors: authorInputs,
       reviewers: recenzentInputs,
       editors: editorInputs,
-      inventoryNumber, // Auto-generated and unique
+      inventoryNumber,
       signature,
       userId: user.uid,
     };
@@ -162,7 +179,7 @@ function AddBook() {
       const docRef = await addDoc(collection(db, "books"), bookData);
       alert("Book added with ID: " + docRef.id);
       resetForm();
-      setStep(1); // Reset to first step
+      setStep(1);
     } catch (error) {
       console.error("Error adding document: ", error);
       alert("Error adding book: " + error.message);
@@ -239,7 +256,6 @@ function AddBook() {
     setShelf("");
     setRow("");
     setCoverImage(null);
-    // Inventory number will be re-generated on next mount
     setSignature("");
     setFaculty("");
     setDefenseDate("");
@@ -278,8 +294,8 @@ function AddBook() {
           className={styles["admin-sidebar-title"]}
           onClick={() => navigate("/profile")}
         >
-          <img src="https://via.placeholder.com/32" alt="Profile" />
-          <h2>{user.email.split("@")[0]}</h2>
+          <img src="/user.png" alt="Profile" />
+          <h2>{userName}</h2>
         </div>
         <div className={styles["admin-sidebar-menu"]}>
           {step === 3 && (
@@ -323,12 +339,11 @@ function AddBook() {
                 <div className={styles.section}>
                   <div className={styles["section-header"]}>Osnovni podaci</div>
                   <div className={styles["section-content"]}>
-                    {/* Removed ID Publikacije field */}
                     <label>Inventarski broj:</label>
                     <input
                       type="text"
                       value={inventoryNumber}
-                      onChange={(e) => setInventoryNumber(e.target.value)} // Read-only in UI, but can be updated by state
+                      onChange={(e) => setInventoryNumber(e.target.value)}
                       readOnly
                       required
                     />

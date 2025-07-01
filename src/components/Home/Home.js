@@ -405,9 +405,8 @@ function Home() {
             className={styles["admin-sidebar-title"]}
             onClick={() => navigate("/profile")}
           >
-            <img src="https://via.placeholder.com/32" alt="Profile" />
+            <img src="/user.png" alt="Profile" />
             <h2>{userName}</h2>
-            <p>{lastName}</p>
           </div>
         )}
         <div className={styles["admin-sidebar-menu"]}>
@@ -546,7 +545,7 @@ function Home() {
           {userName && (
             <>
               <button
-                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]} Home_admin-sidebar-btn__i6N8Q Home_organization-btn__VONga`}
                 onClick={() => setIsKnjigeOpen(!isKnjigeOpen)}
               >
                 {isKnjigeOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
@@ -567,6 +566,13 @@ function Home() {
                     className={styles["admin-sidebar-subbtn"]}
                   >
                     📖 Knjige korisnika
+                  </Link>
+                  <Link
+                    to="/rented-books"
+                    onClick={() => setIsKnjigeOpen(false)}
+                    className={styles["admin-sidebar-subbtn"]}
+                  >
+                    📚 Lista iznajmljenih knjiga
                   </Link>
                 </div>
               )}
