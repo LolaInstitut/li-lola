@@ -406,7 +406,6 @@ function Home() {
           </div>
         ) : (
           <div className={styles["admin-sidebar-title"]}>
-            <h2>Gost</h2>
           </div>
         )}
         <div className={styles["admin-sidebar-menu"]}>
