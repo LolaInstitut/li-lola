@@ -6,7 +6,6 @@ import { collection, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore"
 import { ChevronDown, ChevronRight } from "lucide-react";
 import styles from "./Home.module.css";
 
-// Define authorized emails at the top level
 const authorizedEmails = [
   "ognjen.tomic@li.rs",
   "srecko.manasijevic@li.rs",
@@ -15,7 +14,6 @@ const authorizedEmails = [
 
 function Home() {
   const [userName, setUserName] = useState(null);
-  const [lastName, setLastName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [isBibliotekaOpen, setIsBibliotekaOpen] = useState(false);
@@ -98,13 +96,11 @@ function Home() {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setUserName(userData.name || "No name set");
-          setLastName(userData.lastName || "No last name set");
+          setUserName(userData.name || user.email.split("@")[0] || "Korisnik");
           setIsAdmin(userData.isAdmin || false);
         }
       } else {
         setUserName(null);
-        setLastName(null);
         setIsAdmin(false);
       }
       setIsLoading(false);
@@ -400,13 +396,17 @@ function Home() {
   return (
     <div className={`${styles.container} ${darkMode ? styles["dark-mode"] : ""}`}>
       <div className={styles.filtersSidebar}>
-        {userName && (
+        {userName ? (
           <div
             className={styles["admin-sidebar-title"]}
             onClick={() => navigate("/profile")}
           >
             <img src="/user.png" alt="Profile" />
             <h2>{userName}</h2>
+          </div>
+        ) : (
+          <div className={styles["admin-sidebar-title"]}>
+            <h2>Gost</h2>
           </div>
         )}
         <div className={styles["admin-sidebar-menu"]}>
@@ -427,16 +427,14 @@ function Home() {
                 />{" "}
                 Knjige
               </label>
-
               <label>
                 <input
                   type="checkbox"
                   checked={bookTypes["Prirucnik"]}
                   onChange={() => handleBookTypeChange("Prirucnik")}
                 />{" "}
-                Prirucnici
+                Priručnici
               </label>
-
               {bookTypes["Knjige"] && (
                 <div className={styles["admin-sidebar-subsubmenu"]}>
                   <h4>Podtipovi knjiga</h4>

@@ -9,7 +9,7 @@ import styles from "./Book.module.css";
 function Book() {
   const { bookId } = useParams();
   const [book, setBook] = useState(null);
-  const [userName, setUserName] = useState("Korisnik");
+  const [userName, setUserName] = useState(null);
   const [showRentalForm, setShowRentalForm] = useState(false);
   const [rentalDuration, setRentalDuration] = useState(7);
   const [isBookOutside, setIsBookOutside] = useState(false);
@@ -38,40 +38,45 @@ function Book() {
             const userData = userDoc.data();
             setUserName(userData.name || currentUser.email.split("@")[0] || "Korisnik");
           }
-          const docRef = doc(db, "books", bookId);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setBook(docSnap.data());
-          } else {
-            console.log("No such document!");
-            navigate("/user-books");
-          }
-          const rentalsQuery = query(
-            collection(db, "rentals"),
-            where("bookId", "==", bookId),
-            where("status", "==", "active")
-          );
-          const querySnapshot = await getDocs(rentalsQuery);
-          const rentalsList = await Promise.all(
-            querySnapshot.docs.map(async (rentalDoc) => {
-              const rentalData = rentalDoc.data();
-              const userDoc = await getDoc(doc(db, "users", rentalData.userId));
-              const userData = userDoc.exists() ? userDoc.data() : {};
-              return {
-                id: rentalDoc.id,
-                ...rentalData,
-                userName: userData.name || "N/A",
-                userLastName: userData.lastname || "N/A",
-              };
-            })
-          );
-          setRentals(rentalsList);
         } catch (error) {
-          console.error("Error fetching data: ", error);
-          setErrorMsg("Greška prilikom učitavanja podataka.");
+          console.error("Error fetching user data: ", error);
         }
       } else {
-        navigate("/login");
+        setUserName(null);
+      }
+
+      try {
+        const docRef = doc(db, "books", bookId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setBook(docSnap.data());
+        } else {
+          console.log("No such document!");
+          navigate("/"); // Redirect to home if book not found
+        }
+        const rentalsQuery = query(
+          collection(db, "rentals"),
+          where("bookId", "==", bookId),
+          where("status", "==", "active")
+        );
+        const querySnapshot = await getDocs(rentalsQuery);
+        const rentalsList = await Promise.all(
+          querySnapshot.docs.map(async (rentalDoc) => {
+            const rentalData = rentalDoc.data();
+            const userDoc = await getDoc(doc(db, "users", rentalData.userId));
+            const userData = userDoc.exists() ? userDoc.data() : {};
+            return {
+              id: rentalDoc.id,
+              ...rentalData,
+              userName: userData.name || "N/A",
+              userLastName: userData.lastname || "N/A",
+            };
+          })
+        );
+        setRentals(rentalsList);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+        setErrorMsg("Greška prilikom učitavanja podataka.");
       }
     });
 
@@ -143,7 +148,7 @@ function Book() {
       };
 
       await setDoc(
-        doc(db, "rentals", `${auth.currentUser.uid}_${bookId}_${Date.now()}`),
+        doc(db, "rent10rentals", `${auth.currentUser.uid}_${bookId}_${Date.now()}`),
         rentalData
       );
       setSuccessMsg("Knjiga je uspešno iznajmljena!");
@@ -212,33 +217,43 @@ function Book() {
     <div className={`${styles.container} ${darkMode ? styles["dark-mode"] : ""}`}>
       {/* Sidebar */}
       <div className={styles.filtersSidebar}>
-        <div
-          className={styles["admin-sidebar-title"]}
-          onClick={() => navigate("/profile")}
-        >
-          <img src="/user.png" alt="Profile" />
-          <h2>{userName}</h2>
-        </div>
+        {userName ? (
+          <div
+            className={styles["admin-sidebar-title"]}
+            onClick={() => navigate("/profile")}
+          >
+            <img src="/user.png" alt="Profile" />
+            <h2>{userName}</h2>
+          </div>
+        ) : (
+          <div className={styles["admin-sidebar-title"]}>
+            <h2>Gost</h2>
+          </div>
+        )}
         <div className={styles["admin-sidebar-menu"]}>
-          <button
-            onClick={toggleRentalForm}
-            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]} Book_admin-sidebar-btn__ApPOz Book_organization-btn__oziKD`}
-          >
-            📖 Iznajmi knjigu
-          </button>
-          <button
-            onClick={() => navigate(`/edit-book/${bookId}`)}
-            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
-          >
-            ✏️ Izmeni knjigu
-          </button>
-          <button
-            onClick={handleDeleteBook}
-            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
-            disabled={!auth.currentUser || !authorizedEmails.includes(auth.currentUser.email)}
-          >
-            🗑️ Obriši knjigu
-          </button>
+          {userName && (
+            <>
+              <button
+                onClick={toggleRentalForm}
+                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]} Book_admin-sidebar-btn__ApPOz Book_organization-btn__oziKD`}
+              >
+                📖 Iznajmi knjigu
+              </button>
+              <button
+                onClick={() => navigate(`/edit-book/${bookId}`)}
+                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+              >
+                ✏️ Izmeni knjigu
+              </button>
+              <button
+                onClick={handleDeleteBook}
+                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+                disabled={!auth.currentUser || !authorizedEmails.includes(auth.currentUser.email)}
+              >
+                🗑️ Obriši knjigu
+              </button>
+            </>
+          )}
           <button
             onClick={handleBack}
             className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
@@ -261,7 +276,7 @@ function Book() {
           <p>Pregledaj detalje knjige.</p>
         </div>
         <div className={styles.activeView}>
-          {showRentalForm ? (
+          {showRentalForm && userName ? (
             <div className={styles.formContainer}>
               <div className={styles["form-header"]}>
                 <h2>Iznajmljivanje knjige</h2>
