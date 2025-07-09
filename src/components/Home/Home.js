@@ -50,7 +50,7 @@ function Home() {
   });
 
   const [oblastSubTypes, setOblastSubTypes] = useState({
-    Informatika: false,
+    IT: false,
     Mašinstvo: false,
     Elektrotehnika: false,
     Robotika: false,
@@ -71,7 +71,7 @@ function Home() {
   });
 
   const [categories, setCategories] = useState({
-    Informatika: false,
+    IT: false,
     Mašinstvo: false,
     Elektrotehnika: false,
     Robotika: false,
@@ -176,7 +176,7 @@ function Home() {
         )
       ) {
         setCategories({
-          Informatika: false,
+          IT: false,
           Mašinstvo: false,
           Elektrotehnika: false,
           Robotika: false,
@@ -748,32 +748,34 @@ function Home() {
                 </tr>
               </thead>
               <tbody>
-                {filteredBooks.map((book) => (
-                  <tr key={book.id}>
-                    <td data-label="Naslov">
-                      <Link to={`/book/${book.id}`}>{book.title}</Link>
-                    </td>
-                    <td data-label="Autor">{book.authors.join(", ")}</td>
-                    <td data-label="Tip">{book.publicationType}</td>
-                    <td data-label="Oznake">
-                      {Array.isArray(book.tag) ? book.tag.join(", ") : book.tag}
-                    </td>
-                    <td data-label="Jezik časopisa">{book.language}</td>
-                    {userName && isAdmin && (
-                      <td data-label="Akcije">
-                        <button onClick={() => navigate(`/edit-book/${book.id}`)}>
-                          Uredi
-                        </button>
-                        <button
-                          onClick={() => handleDeleteBook(book.id)}
-                          disabled={!authorizedEmails.includes(auth.currentUser.email)}
-                        >
-                          Obriši
-                        </button>
+                {filteredBooks
+                  .sort((a, b) => a.title.localeCompare(b.title))
+                  .map((book) => (
+                    <tr key={book.id}>
+                      <td data-label="Naslov">
+                        <Link to={`/book/${book.id}`}>{book.title}</Link>
                       </td>
-                    )}
-                  </tr>
-                ))}
+                      <td data-label="Autor">{book.authors.join(", ")}</td>
+                      <td data-label="Tip">{book.publicationType}</td>
+                      <td data-label="Oznake">
+                        {Array.isArray(book.tag) ? book.tag.join(", ") : book.tag}
+                      </td>
+                      <td data-label="Jezik časopisa">{book.language}</td>
+                      {userName && isAdmin && (
+                        <td data-label="Akcije">
+                          <button onClick={() => navigate(`/edit-book/${book.id}`)}>
+                            Uredi
+                          </button>
+                          <button
+                            onClick={() => handleDeleteBook(book.id)}
+                            disabled={!authorizedEmails.includes(auth.currentUser.email)}
+                          >
+                            Obriši
+                          </button>
+                        </td>
+                      )}
+                    </tr>
+                  ))}
               </tbody>
             </table>
           ) : (
