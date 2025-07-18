@@ -168,7 +168,7 @@ function Home() {
               "Priručnici",
               "Rečnici",
               "LOLA INSTITUT",
-              "Casopis",
+              "Casopisi",
               "Akademski radovi",
               "Konferencije - Proceedings",
               "Ostalo",
@@ -414,7 +414,7 @@ function Home() {
             onClick={() => setIsBibliotekaOpen(!isBibliotekaOpen)}
           >
             {isBibliotekaOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-            🏢 Biblioteka
+            🏢 Sadrzaj biblioteke
           </button>
           {isBibliotekaOpen && (
             <div className={styles["admin-sidebar-submenu"]}>
@@ -511,7 +511,7 @@ function Home() {
                       checked={bookTypes["Casopis"]}
                       onChange={() => handleBookTypeChange("Casopis")}
                     />{" "}
-                    Casopis
+                    Casopisi
                   </label>
                   <label>
                     <input
@@ -623,14 +623,14 @@ function Home() {
 
       <div className={styles.mainContent}>
         <div className={styles["admin-welcome"]}>
-          <h2>Dobrodošli u biblioteku LOLA Instituta</h2>
+          <h1>Biblioteka LOLA INSTITUTA</h1>
         </div>
 
         <div className={styles.booksListHeader}>
           <div className={styles.searchContainer}>
             <input
               type="text"
-              placeholder="Pretraži knjige..."
+              placeholder="Pretraži..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={styles.searchInput}
