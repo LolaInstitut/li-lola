@@ -493,7 +493,7 @@ function Home() {
                   checked={bookTypes["Konferencije - Proceedings"]}
                   onChange={() => handleBookTypeChange("Konferencije - Proceedings")}
                 />{" "}
-                Konferencije - Proceedings
+                Zbornici - Proceedings
               </label>
               {!showAllBookTypes && (
                 <button
