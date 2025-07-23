@@ -95,6 +95,7 @@ function Home() {
   const profileButtonRef = useRef(null);
   const [menuWidth, setMenuWidth] = useState(null);
   const navigate = useNavigate();
+  const booksListRef = useRef(null); // Ref for the booksList div
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -423,7 +424,7 @@ function Home() {
               src="/logo.png"
               alt="LOLA Institut Logo"
               className={styles.logo}
-            /> {/* Logo shown when logged in, replacing user profile */}
+            /> {/* Logo shown when logged in */}
             <div className={styles["admin-sidebar-menu"]}>
               <button
                 className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
@@ -919,7 +920,14 @@ function Home() {
           )}
         </div>
 
-        <div className={styles.booksList}>
+        <div
+          className={styles.booksList}
+          ref={booksListRef}
+          style={{
+            maxHeight: "60vh", // Fixed height for internal scrolling
+            overflowY: "auto", // Enable vertical scrolling within booksList
+          }}
+        >
           {isBooksLoading ? (
             <div className={styles.loaderContainer}>
               <div className={styles.dancingLetters}>
@@ -996,3 +1004,4 @@ function Home() {
 }
 
 export default Home;
+
