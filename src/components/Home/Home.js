@@ -2,7 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import styles from "./Home.module.css";
 
@@ -25,6 +31,7 @@ function Home() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isBooksLoading, setIsBooksLoading] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 
   const [bookTypes, setBookTypes] = useState({
     Knjige: false,
@@ -152,6 +159,16 @@ function Home() {
     }
   }, [darkMode]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setIsHeaderVisible(scrollTop < 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleBookTypeChange = (type) => {
     setBookTypes((prevTypes) => {
       const updatedTypes = {
@@ -262,7 +279,9 @@ function Home() {
       return;
     }
 
-    if (!window.confirm("Da li ste sigurni da želite da obrišete ovu knjigu?")) {
+    if (
+      !window.confirm("Da li ste sigurni da želite da obrišete ovu knjigu?")
+    ) {
       return;
     }
 
@@ -394,236 +413,412 @@ function Home() {
   }
 
   return (
-    <div className={`${styles.container} ${darkMode ? styles["dark-mode"] : ""}`}>
+    <div
+      className={`${styles.container} ${darkMode ? styles["dark-mode"] : ""}`}
+    >
       <div className={styles.filtersSidebar}>
         {userName ? (
-          <div
-            className={styles["admin-sidebar-title"]}
-            onClick={() => navigate("/profile")}
-          >
-            <img src="/user.png" alt="Profile" />
-            <h2>{userName}</h2>
-          </div>
-        ) : (
-          <div className={styles["admin-sidebar-title"]}>
-          </div>
-        )}
-        <div className={styles["admin-sidebar-menu"]}>
-          <button
-            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
-            onClick={() => setIsBibliotekaOpen(!isBibliotekaOpen)}
-          >
-            {isBibliotekaOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-            🏢 Sadrzaj biblioteke
-          </button>
-          {isBibliotekaOpen && (
-            <div className={styles["admin-sidebar-submenu"]}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={bookTypes["Knjige"]}
-                  onChange={() => handleBookTypeChange("Knjige")}
-                />{" "}
-                Knjige
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={bookTypes["Prirucnik"]}
-                  onChange={() => handleBookTypeChange("Prirucnik")}
-                />{" "}
-                Priručnici
-              </label>
-              {bookTypes["Knjige"] && (
-                <div className={styles["admin-sidebar-subsubmenu"]}>
-                  <h4>Podtipovi knjiga</h4>
-                  {Object.keys(knjigeSubTypes).map((subType) => (
-                    <label key={subType}>
-                      <input
-                        type="checkbox"
-                        checked={knjigeSubTypes[subType]}
-                        onChange={() => handleKnjigeSubTypeChange(subType)}
-                      />{" "}
-                      {subType}
-                    </label>
-                  ))}
+          <>
+            <img
+              src="/logo.png"
+              alt="LOLA Institut Logo"
+              className={styles.logo}
+            /> {/* Logo shown when logged in, replacing user profile */}
+            <div className={styles["admin-sidebar-menu"]}>
+              <button
+                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+                onClick={() => setIsBibliotekaOpen(!isBibliotekaOpen)}
+              >
+                {isBibliotekaOpen ? (
+                  <ChevronDown size={20} />
+                ) : (
+                  <ChevronRight size={20} />
+                )}
+                🏢 Sadrzaj biblioteke
+              </button>
+              {isBibliotekaOpen && (
+                <div className={styles["admin-sidebar-submenu"]}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={bookTypes["Knjige"]}
+                      onChange={() => handleBookTypeChange("Knjige")}
+                    />{" "}
+                    Knjige
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={bookTypes["Prirucnik"]}
+                      onChange={() => handleBookTypeChange("Prirucnik")}
+                    />{" "}
+                    Priručnici
+                  </label>
+                  {bookTypes["Knjige"] && (
+                    <div className={styles["admin-sidebar-subsubmenu"]}>
+                      <h4>Podtipovi knjiga</h4>
+                      {Object.keys(knjigeSubTypes).map((subType) => (
+                        <label key={subType}>
+                          <input
+                            type="checkbox"
+                            checked={knjigeSubTypes[subType]}
+                            onChange={() => handleKnjigeSubTypeChange(subType)}
+                          />{" "}
+                          {subType}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  {bookTypes["Knjige"] && (
+                    <div className={styles["admin-sidebar-subsubmenu"]}>
+                      <h4>Jezik</h4>
+                      {Object.keys(languageSubTypes).map((language) => (
+                        <label key={language}>
+                          <input
+                            type="checkbox"
+                            checked={languageSubTypes[language]}
+                            onChange={() =>
+                              handleLanguageSubTypeChange(language)
+                            }
+                          />{" "}
+                          {language}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  {bookTypes["Knjige"] && (
+                    <div className={styles["admin-sidebar-subsubmenu"]}>
+                      <h4>Oblast</h4>
+                      {Object.keys(oblastSubTypes).map((oblast) => (
+                        <label key={oblast}>
+                          <input
+                            type="checkbox"
+                            checked={oblastSubTypes[oblast]}
+                            onChange={() => handleOblastSubTypeChange(oblast)}
+                          />{" "}
+                          {oblast}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={bookTypes["LOLA INSTITUT"]}
+                      onChange={() => handleBookTypeChange("LOLA INSTITUT")}
+                    />{" "}
+                    LOLA INSTITUT
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={bookTypes["Konferencije - Proceedings"]}
+                      onChange={() =>
+                        handleBookTypeChange("Konferencije - Proceedings")
+                      }
+                    />{" "}
+                    Zbornici - Proceedings
+                  </label>
+                  {!showAllBookTypes && (
+                    <button
+                      onClick={() => setShowAllBookTypes(true)}
+                      className={styles.showMoreButton}
+                    >
+                      Prikaži više filtera
+                    </button>
+                  )}
+                  {showAllBookTypes && (
+                    <>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={bookTypes["Casopis"]}
+                          onChange={() => handleBookTypeChange("Casopis")}
+                        />{" "}
+                        Casopisi
+                      </label>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={bookTypes["Akademski radovi"]}
+                          onChange={() =>
+                            handleBookTypeChange("Akademski radovi")
+                          }
+                        />{" "}
+                        Akademski radovi
+                      </label>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={bookTypes["Ostalo"]}
+                          onChange={() => handleBookTypeChange("Ostalo")}
+                        />{" "}
+                        Ostalo
+                      </label>
+                      <button
+                        onClick={() => setShowAllBookTypes(false)}
+                        className={styles.showMoreButton}
+                      >
+                        Prikaži manje filtera
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
-              {bookTypes["Knjige"] && (
-                <div className={styles["admin-sidebar-subsubmenu"]}>
-                  <h4>Jezik</h4>
-                  {Object.keys(languageSubTypes).map((language) => (
-                    <label key={language}>
-                      <input
-                        type="checkbox"
-                        checked={languageSubTypes[language]}
-                        onChange={() => handleLanguageSubTypeChange(language)}
-                      />{" "}
-                      {language}
-                    </label>
-                  ))}
-                </div>
-              )}
-              {bookTypes["Knjige"] && (
-                <div className={styles["admin-sidebar-subsubmenu"]}>
-                  <h4>Oblast</h4>
-                  {Object.keys(oblastSubTypes).map((oblast) => (
-                    <label key={oblast}>
-                      <input
-                        type="checkbox"
-                        checked={oblastSubTypes[oblast]}
-                        onChange={() => handleOblastSubTypeChange(oblast)}
-                      />{" "}
-                      {oblast}
-                    </label>
-                  ))}
-                </div>
-              )}
-              <label>
-                <input
-                  type="checkbox"
-                  checked={bookTypes["LOLA INSTITUT"]}
-                  onChange={() => handleBookTypeChange("LOLA INSTITUT")}
-                />{" "}
-                LOLA INSTITUT
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={bookTypes["Konferencije - Proceedings"]}
-                  onChange={() => handleBookTypeChange("Konferencije - Proceedings")}
-                />{" "}
-                Zbornici - Proceedings
-              </label>
-              {!showAllBookTypes && (
-                <button
-                  onClick={() => setShowAllBookTypes(true)}
-                  className={styles.showMoreButton}
-                >
-                  Prikaži više filtera
-                </button>
-              )}
-              {showAllBookTypes && (
+              {userName && (
                 <>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={bookTypes["Casopis"]}
-                      onChange={() => handleBookTypeChange("Casopis")}
-                    />{" "}
-                    Casopisi
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={bookTypes["Akademski radovi"]}
-                      onChange={() => handleBookTypeChange("Akademski radovi")}
-                    />{" "}
-                    Akademski radovi
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={bookTypes["Ostalo"]}
-                      onChange={() => handleBookTypeChange("Ostalo")}
-                    />{" "}
-                    Ostalo
-                  </label>
                   <button
-                    onClick={() => setShowAllBookTypes(false)}
-                    className={styles.showMoreButton}
+                    className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]} Home_admin-sidebar-btn__i6N8Q Home_organization-btn__VONga`}
+                    onClick={() => setIsKnjigeOpen(!isKnjigeOpen)}
                   >
-                    Prikaži manje filtera
+                    {isKnjigeOpen ? (
+                      <ChevronDown size={20} />
+                    ) : (
+                      <ChevronRight size={20} />
+                    )}
+                    📚 Knjige
+                  </button>
+                  {isKnjigeOpen && (
+                    <div className={styles["admin-sidebar-submenu"]}>
+                      <Link
+                        to="/addbook"
+                        onClick={() => setIsKnjigeOpen(false)}
+                        className={styles["admin-sidebar-subbtn"]}
+                      >
+                        📝 Dodaj novu knjigu
+                      </Link>
+                      <Link
+                        to="/userbook"
+                        onClick={() => setIsKnjigeOpen(false)}
+                        className={styles["admin-sidebar-subbtn"]}
+                      >
+                        📖 Knjige korisnika
+                      </Link>
+                      <Link
+                        to="/rented-books"
+                        onClick={() => setIsKnjigeOpen(false)}
+                        className={styles["admin-sidebar-subbtn"]}
+                      >
+                        📚 Lista iznajmljenih knjiga
+                      </Link>
+                    </div>
+                  )}
+                  <button
+                    className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+                    onClick={() => navigate("/profile")}
+                  >
+                    🔐 Profil
+                  </button>
+                  <button
+                    className={styles["admin-sidebar-btn"]}
+                    onClick={() => navigate("/logout")}
+                  >
+                    📤 Izloguj se
                   </button>
                 </>
               )}
-            </div>
-          )}
-          {userName && (
-            <>
               <button
-                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]} Home_admin-sidebar-btn__i6N8Q Home_organization-btn__VONga`}
-                onClick={() => setIsKnjigeOpen(!isKnjigeOpen)}
+                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+                onClick={() => setDarkMode(!darkMode)}
               >
-                {isKnjigeOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                📚 Knjige
+                🌗 {darkMode ? "Svetli mod" : "Tamni mod"}
               </button>
-              {isKnjigeOpen && (
+            </div>
+            {userName && isAdmin && (
+              <div className={styles["admin-stats"]}>
+                <div
+                  className={`${styles["stat-card"]} ${styles["users"]}`}
+                  data-type="users"
+                >
+                  <h3>{totalUsers}</h3>
+                  <p>Ukupno korisnika</p>
+                </div>
+                <div
+                  className={`${styles["stat-card"]} ${styles["books"]}`}
+                  data-type="books"
+                >
+                  <h3>{totalBooks}</h3>
+                  <p>Ukupno knjiga</p>
+                </div>
+                <div
+                  className={`${styles["stat-card"]} ${styles["filtered"]}`}
+                  data-type="filtered"
+                >
+                  <h3>{filteredBooksCount}</h3>
+                  <p>Filtrirane knjige</p>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <img
+              src="/logo.png"
+              alt="LOLA Institut Logo"
+              className={styles.logo}
+            /> {/* Logo shown when not logged in */}
+            <div className={styles["admin-sidebar-menu"]}>
+              <button
+                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+                onClick={() => setIsBibliotekaOpen(!isBibliotekaOpen)}
+              >
+                {isBibliotekaOpen ? (
+                  <ChevronDown size={20} />
+                ) : (
+                  <ChevronRight size={20} />
+                )}
+                🏢 Sadrzaj biblioteke
+              </button>
+              {isBibliotekaOpen && (
                 <div className={styles["admin-sidebar-submenu"]}>
-                  <Link
-                    to="/addbook"
-                    onClick={() => setIsKnjigeOpen(false)}
-                    className={styles["admin-sidebar-subbtn"]}
-                  >
-                    📝 Dodaj novu knjigu
-                  </Link>
-                  <Link
-                    to="/userbook"
-                    onClick={() => setIsKnjigeOpen(false)}
-                    className={styles["admin-sidebar-subbtn"]}
-                  >
-                    📖 Knjige korisnika
-                  </Link>
-                  <Link
-                    to="/rented-books"
-                    onClick={() => setIsKnjigeOpen(false)}
-                    className={styles["admin-sidebar-subbtn"]}
-                  >
-                    📚 Lista iznajmljenih knjiga
-                  </Link>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={bookTypes["Knjige"]}
+                      onChange={() => handleBookTypeChange("Knjige")}
+                    />{" "}
+                    Knjige
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={bookTypes["Prirucnik"]}
+                      onChange={() => handleBookTypeChange("Prirucnik")}
+                    />{" "}
+                    Priručnici
+                  </label>
+                  {bookTypes["Knjige"] && (
+                    <div className={styles["admin-sidebar-subsubmenu"]}>
+                      <h4>Podtipovi knjiga</h4>
+                      {Object.keys(knjigeSubTypes).map((subType) => (
+                        <label key={subType}>
+                          <input
+                            type="checkbox"
+                            checked={knjigeSubTypes[subType]}
+                            onChange={() => handleKnjigeSubTypeChange(subType)}
+                          />{" "}
+                          {subType}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  {bookTypes["Knjige"] && (
+                    <div className={styles["admin-sidebar-subsubmenu"]}>
+                      <h4>Jezik</h4>
+                      {Object.keys(languageSubTypes).map((language) => (
+                        <label key={language}>
+                          <input
+                            type="checkbox"
+                            checked={languageSubTypes[language]}
+                            onChange={() =>
+                              handleLanguageSubTypeChange(language)
+                            }
+                          />{" "}
+                          {language}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  {bookTypes["Knjige"] && (
+                    <div className={styles["admin-sidebar-subsubmenu"]}>
+                      <h4>Oblast</h4>
+                      {Object.keys(oblastSubTypes).map((oblast) => (
+                        <label key={oblast}>
+                          <input
+                            type="checkbox"
+                            checked={oblastSubTypes[oblast]}
+                            onChange={() => handleOblastSubTypeChange(oblast)}
+                          />{" "}
+                          {oblast}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={bookTypes["LOLA INSTITUT"]}
+                      onChange={() => handleBookTypeChange("LOLA INSTITUT")}
+                    />{" "}
+                    LOLA INSTITUT
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={bookTypes["Konferencije - Proceedings"]}
+                      onChange={() =>
+                        handleBookTypeChange("Konferencije - Proceedings")
+                      }
+                    />{" "}
+                    Zbornici - Proceedings
+                  </label>
+                  {!showAllBookTypes && (
+                    <button
+                      onClick={() => setShowAllBookTypes(true)}
+                      className={styles.showMoreButton}
+                    >
+                      Prikaži više filtera
+                    </button>
+                  )}
+                  {showAllBookTypes && (
+                    <>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={bookTypes["Casopis"]}
+                          onChange={() => handleBookTypeChange("Casopis")}
+                        />{" "}
+                        Casopisi
+                      </label>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={bookTypes["Akademski radovi"]}
+                          onChange={() =>
+                            handleBookTypeChange("Akademski radovi")
+                          }
+                        />{" "}
+                        Akademski radovi
+                      </label>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={bookTypes["Ostalo"]}
+                          onChange={() => handleBookTypeChange("Ostalo")}
+                        />{" "}
+                        Ostalo
+                      </label>
+                      <button
+                        onClick={() => setShowAllBookTypes(false)}
+                        className={styles.showMoreButton}
+                      >
+                        Prikaži manje filtera
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
               <button
-                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
-                onClick={() => navigate("/profile")}
+                ref={loginButtonRef}
+                className={styles["admin-sidebar-btn"]}
+                onClick={() => navigate("/login")}
               >
-                🔐 Profil
+                📥 Uloguj se / Registruj se
               </button>
               <button
-                className={styles["admin-sidebar-btn"]}
-                onClick={() => navigate("/logout")}
+                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+                onClick={() => setDarkMode(!darkMode)}
               >
-                📤 Izloguj se
+                🌗 {darkMode ? "Svetli mod" : "Tamni mod"}
               </button>
-            </>
-          )}
-          {!userName && (
-            <button
-              ref={loginButtonRef}
-              className={styles["admin-sidebar-btn"]}
-              onClick={() => navigate("/login")}
-            >
-              📥 Uloguj se / Registruj se
-            </button>
-          )}
-          <button
-            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
-            onClick={() => setDarkMode(!darkMode)}
-          >
-            🌗 {darkMode ? "Svetli mod" : "Tamni mod"}
-          </button>
-        </div>
-        {userName && isAdmin && (
-          <div className={styles["admin-stats"]}>
-            <div className={`${styles["stat-card"]} ${styles["users"]}`} data-type="users">
-              <h3>{totalUsers}</h3>
-              <p>Ukupno korisnika</p>
             </div>
-            <div className={`${styles["stat-card"]} ${styles["books"]}`} data-type="books">
-              <h3>{totalBooks}</h3>
-              <p>Ukupno knjiga</p>
-            </div>
-            <div className={`${styles["stat-card"]} ${styles["filtered"]}`} data-type="filtered">
-              <h3>{filteredBooksCount}</h3>
-              <p>Filtrirane knjige</p>
-            </div>
-          </div>
+          </>
         )}
       </div>
 
       <div className={styles.mainContent}>
         <div className={styles["admin-welcome"]}>
-          <h1>Biblioteka LOLA INSTITUTA</h1>
+          {isHeaderVisible && <h1>Biblioteka LOLA INSTITUTA</h1>}
         </div>
 
         <div className={styles.booksListHeader}>
@@ -703,10 +898,14 @@ function Home() {
                   <h4>Jezik</h4>
                   <select
                     value={journalLanguage}
-                    onChange={(e) => handleJournalLanguageChange(e.target.value)}
+                    onChange={(e) =>
+                      handleJournalLanguageChange(e.target.value)
+                    }
                   >
                     <option value="">Svi</option>
-                    {journalType === "Domaci" && <option value="Srpski">Srpski</option>}
+                    {journalType === "Domaci" && (
+                      <option value="Srpski">Srpski</option>
+                    )}
                     {journalType === "Strani" && (
                       <>
                         <option value="Engleski">Engleski</option>
@@ -752,23 +951,32 @@ function Home() {
                   .sort((a, b) => a.title.localeCompare(b.title))
                   .map((book) => (
                     <tr key={book.id}>
-                      <td data-label="Naslov">
+                      <td
+                        data-label="Naslov"
+                        className={styles["title-column"]}
+                      >
                         <Link to={`/book/${book.id}`}>{book.title}</Link>
                       </td>
                       <td data-label="Autor">{book.authors.join(", ")}</td>
                       <td data-label="Tip">{book.publicationType}</td>
                       <td data-label="Oznake">
-                        {Array.isArray(book.tag) ? book.tag.join(", ") : book.tag}
+                        {Array.isArray(book.tag)
+                          ? book.tag.join(", ")
+                          : book.tag}
                       </td>
                       <td data-label="Jezik časopisa">{book.language}</td>
                       {userName && isAdmin && (
                         <td data-label="Akcije">
-                          <button onClick={() => navigate(`/edit-book/${book.id}`)}>
+                          <button
+                            onClick={() => navigate(`/edit-book/${book.id}`)}
+                          >
                             Uredi
                           </button>
                           <button
                             onClick={() => handleDeleteBook(book.id)}
-                            disabled={!authorizedEmails.includes(auth.currentUser.email)}
+                            disabled={
+                              !authorizedEmails.includes(auth.currentUser.email)
+                            }
                           >
                             Obriši
                           </button>

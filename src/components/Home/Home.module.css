@@ -5,6 +5,7 @@
   font-family: 'Roboto', sans-serif;
   background-color: #f9fafb;
   color: #1f2937;
+  position: relative;
 }
 
 .container.dark-mode {
@@ -53,7 +54,7 @@
 .letter {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #443c8c;
+  color: #08549c;
   display: inline-block;
   animation: bounce 0.6s ease infinite;
   text-transform: uppercase;
@@ -261,7 +262,7 @@
 .admin-welcome {
   text-align: center;
   margin-bottom: 2rem;
-  color: #443c8c;
+  color: #08549c;
 }
 
 .admin-welcome h2 {
@@ -423,7 +424,7 @@
 }
 
 .dropdownMenu a {
-  color: #1f2937;
+  color: #08549c;
   text-decoration: none;
   display: block;
   transition: background-color 0.2s ease;
@@ -470,7 +471,7 @@
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
-  color: #1f2937;
+  color: #08549c;
 }
 
 .container.dark-mode .filterGroup label {
@@ -575,8 +576,8 @@
   padding: 0.75rem;
   font-size: 1rem;
   font-weight: 600;
-  text-align: center; /* Changed from 'left' to 'center' */
-  color: #1f2937;
+  text-align: center;
+  color: #08549c;
 }
 
 .container.dark-mode .booksTable th {
@@ -595,6 +596,20 @@
   padding: 0.5rem;
   font-size: 0.9rem;
   color: #4b5563;
+}
+
+.booksTable td.title-column {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.container.dark-mode .booksTable td.title-column {
+  color: #d1d5db;
 }
 
 .container.dark-mode .booksTable td {
@@ -623,7 +638,7 @@
 .booksList p {
   text-align: center;
   font-size: 1.2rem;
-  color: #1f2937;
+  color: #08549c;
   padding: 2rem;
 }
 
@@ -726,7 +741,7 @@
   .booksTable td:before {
     content: attr(data-label);
     font-weight: 600;
-    color: #1f2937;
+    color: #08549c;
     margin-right: 0.5rem;
   }
 
@@ -833,4 +848,15 @@
 
 .container.dark-mode .admin-sidebar-subsubmenu p {
   color: #d1d5db;
+}
+
+.logo {
+  width: 200px; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 0.5rem; /* Space between logo and button */
+  align-self: center; /* Center the logo horizontally */
+}
+
+.container.dark-mode .logo {
+  filter: brightness(0.8); /* Adjust for dark mode if needed */
 }
