@@ -357,6 +357,20 @@
   padding: 0.5rem;
   font-size: 0.9rem;
   color: #4b5563;
+  text-align: top;
+}
+
+/* Leva kolona - nazivi polja */
+.invisibleTable td:first-child {
+  font-weight: 600;
+  text-align: left;
+  width: 30%;
+  padding-left: 0;
+}
+
+/* Desna kolona - vrednosti */
+.invisibleTable td:nth-child(2) {
+  text-align: center;
 }
 
 .container.dark-mode .invisibleTable td {
