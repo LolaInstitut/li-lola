@@ -12,6 +12,7 @@ function EditBook() {
   const [bookData, setBookData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const fileInputRef = useRef(null);
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
@@ -21,6 +22,10 @@ function EditBook() {
         setUser(currentUser);
 
         try {
+          const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+          const userData = userDoc.exists() ? userDoc.data() : {};
+          setIsAdmin(userData.isAdmin || false);
+
           const bookDocRef = doc(db, 'books', bookId);
           const bookDoc = await getDoc(bookDocRef);
 
@@ -29,12 +34,12 @@ function EditBook() {
             setBookData(bookData);
             setIsOwner(bookData.userId === currentUser.uid);
           } else {
-            alert('Book not found');
+            alert('Knjiga nije pronađena.');
             navigate('/');
           }
         } catch (error) {
-          console.error('Error fetching book:', error);
-          alert('Error fetching book data.');
+          console.error('Greška prilikom dohvatanja knjige:', error);
+          alert('Greška prilikom dohvatanja podataka o knjizi.');
           navigate('/');
         } finally {
           setIsLoading(false);
@@ -49,19 +54,20 @@ function EditBook() {
 
   const handleUpdateBook = async (e) => {
     e.preventDefault();
-    if (!user || !isOwner) {
-      alert('You are not authorized to edit this book.');
+    if (!user || (!isOwner && !isAdmin)) {
+      alert('Niste ovlašćeni da uređujete ovu knjigu.');
+      navigate('/');
       return;
     }
 
     try {
       const bookDocRef = doc(db, 'books', bookId);
       await updateDoc(bookDocRef, bookData);
-      alert('Book updated successfully');
+      alert('Knjiga je uspešno ažurirana.');
       navigate('/');
     } catch (error) {
-      console.error('Error updating document:', error);
-      alert('Error updating book: ' + error.message);
+      console.error('Greška prilikom ažuriranja knjige:', error);
+      alert('Greška prilikom ažuriranja knjige: ' + error.message);
     }
   };
 
@@ -93,23 +99,23 @@ function EditBook() {
   };
 
   if (isLoading) {
-    return <div className={styles.loading}>Loading...</div>;
+    return <div className={styles.loading}>Učitavanje...</div>;
   }
 
-  if (!isOwner) {
-    return <div>You are not authorized to edit this book.</div>;
+  if (!isOwner && !isAdmin) {
+    alert('Niste ovlašćeni da uređujete ovu knjigu.');
+    navigate('/');
+    return null;
   }
 
   return (
     <div className={`${styles.container} ${styles.darkMode ? styles['dark-mode'] : ''}`}>
       <div className={styles.filtersSidebar}>
-        <div
-          className={styles['admin-sidebar-title']}
-          onClick={() => navigate('/profile')}
-        >
-          <img src="https://via.placeholder.com/32" alt="Profile" />
-          <h2>{user.email.split('@')[0]}</h2>
-        </div>
+        <img
+          src="/logo.png"
+          alt="LOLA Institut Logo"
+          className={styles.logo}
+        />
         <div className={styles['admin-sidebar-menu']}>
           <button
             type="submit"

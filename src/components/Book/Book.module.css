@@ -86,7 +86,7 @@
 .container.dark-mode .filtersSidebar {
   background-color: #111827;
   color: #f3f4f6;
-  border-right-color: #4b5563;
+  border-right-color: #08549c;
 }
 
 /* Sidebar title (user profile) */
@@ -155,7 +155,7 @@
 }
 
 .container.dark-mode .admin-sidebar-btn:hover {
-  background: #4b5563;
+  background: #08549c;
 }
 
 /* Organization button styling */
@@ -283,7 +283,7 @@
 .container.dark-mode .inputControl input[type="number"] {
   background: #374151;
   color: #f3f4f6;
-  border-color: #4b5563;
+  border-color: #08549c;
 }
 
 .container.dark-mode .inputControl input[type="number"]:focus {
@@ -356,7 +356,7 @@
 .invisibleTable td {
   padding: 0.5rem;
   font-size: 0.9rem;
-  color: #4b5563;
+  color: #08549c;
   text-align: top;
 }
 
@@ -465,13 +465,13 @@
 }
 
 .container.dark-mode .rentalTable tr {
-  border-bottom: 1px solid #4b5563;
+  border-bottom: 1px solid #08549c;
 }
 
 .rentalTable td {
   padding: 0.5rem;
   font-size: 0.9rem;
-  color: #4b5563;
+  color: #08549c;
 }
 
 .container.dark-mode .rentalTable td {
@@ -502,7 +502,7 @@
   }
 
   .container.dark-mode .filtersSidebar {
-    border-bottom-color: #4b5563;
+    border-bottom-color: #08549c;
   }
 
   .mainContent {
@@ -548,7 +548,7 @@
   }
 
   .container.dark-mode .rentalTable tbody tr {
-    border-color: #4b5563;
+    border-color: #08549c;
   }
 
   .rentalTable td {
@@ -577,4 +577,15 @@
   .letter {
     font-size: 1.5rem;
   }
+}
+
+.logo {
+  width: 200px; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 0.5rem; /* Space between logo and button */
+  align-self: center; /* Center the logo horizontally */
+}
+
+.container.dark-mode .logo {
+  filter: brightness(0.8); /* Adjust for dark mode if needed */
 }

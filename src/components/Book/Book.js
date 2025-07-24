@@ -10,6 +10,7 @@ function Book() {
   const { bookId } = useParams();
   const [book, setBook] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showRentalForm, setShowRentalForm] = useState(false);
   const [rentalDuration, setRentalDuration] = useState(7);
   const [isBookOutside, setIsBookOutside] = useState(false);
@@ -37,12 +38,14 @@ function Book() {
           if (userDoc.exists()) {
             const userData = userDoc.data();
             setUserName(userData.name || currentUser.email.split("@")[0] || "Korisnik");
+            setIsAdmin(userData.isAdmin || false);
           }
         } catch (error) {
           console.error("Error fetching user data: ", error);
         }
       } else {
         setUserName(null);
+        setIsAdmin(false);
       }
 
       try {
@@ -52,7 +55,7 @@ function Book() {
           setBook(docSnap.data());
         } else {
           console.log("No such document!");
-          navigate("/"); // Redirect to home if book not found
+          navigate("/");
         }
         const rentalsQuery = query(
           collection(db, "rentals"),
@@ -148,7 +151,7 @@ function Book() {
       };
 
       await setDoc(
-        doc(db, "rent10rentals", `${auth.currentUser.uid}_${bookId}_${Date.now()}`),
+        doc(db, "rentals", `${auth.currentUser.uid}_${bookId}_${Date.now()}`),
         rentalData
       );
       setSuccessMsg("Knjiga je uspešno iznajmljena!");
@@ -215,20 +218,12 @@ function Book() {
 
   return (
     <div className={`${styles.container} ${darkMode ? styles["dark-mode"] : ""}`}>
-      {/* Sidebar */}
       <div className={styles.filtersSidebar}>
-        {userName ? (
-          <div
-            className={styles["admin-sidebar-title"]}
-            onClick={() => navigate("/profile")}
-          >
-            <img src="/user.png" alt="Profile" />
-            <h2>{userName}</h2>
-          </div>
-        ) : (
-          <div className={styles["admin-sidebar-title"]}>
-          </div>
-        )}
+        <img
+          src="/logo.png"
+          alt="LOLA Institut Logo"
+          className={styles.logo}
+        />
         <div className={styles["admin-sidebar-menu"]}>
           {userName && (
             <>
@@ -238,12 +233,14 @@ function Book() {
               >
                 📖 Iznajmi knjigu
               </button>
-              <button
-                onClick={() => navigate(`/edit-book/${bookId}`)}
-                className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
-              >
-                ✏️ Izmeni knjigu
-              </button>
+              {(isAdmin || book.userId === auth.currentUser?.uid) && (
+                <button
+                  onClick={() => navigate(`/edit-book/${bookId}`)}
+                  className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
+                >
+                  ✏️ Izmeni knjigu
+                </button>
+              )}
               <button
                 onClick={handleDeleteBook}
                 className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
@@ -268,7 +265,6 @@ function Book() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className={styles.mainContent}>
         <div className={styles["admin-welcome"]}>
           <h2>Podaci knjige</h2>

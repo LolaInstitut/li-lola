@@ -326,3 +326,14 @@
   padding: 6px 12px;
   font-size: 14px;
 }
+
+.logo {
+  width: 200px; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 0.5rem; /* Space between logo and button */
+  align-self: center; /* Center the logo horizontally */
+}
+
+.container.dark-mode .logo {
+  filter: brightness(0.8); /* Adjust for dark mode if needed */
+}

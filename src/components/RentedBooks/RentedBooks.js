@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebaseConfig";
 import { collection, query, where, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import styles from "../Home/Home.module.css";
+import styles from "./RentedBooks.module.css";
 
 function RentedBooks() {
   const [user, setUser] = useState(null);
@@ -107,22 +107,20 @@ function RentedBooks() {
     <div className={`${styles.container} ${darkMode ? styles["dark-mode"] : ""}`}>
       {/* Sidebar */}
       <div className={styles.filtersSidebar}>
-        <div
-          className={styles["admin-sidebar-title"]}
-          onClick={() => navigate("/profile")}
-        >
-          <img src="/user.png" alt="Profile" />
-          <h2>{userName}</h2>
-        </div>
+        <img
+          src="/logo.png"
+          alt="LOLA Institut Logo"
+          className={styles.logo}
+        />
         <div className={styles["admin-sidebar-menu"]}>
           <button
-            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]} Home_admin-sidebar-btn__i6N8Q Home_organization-btn__VONga`}
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
             onClick={handleBack}
           >
             ⬅️ Vrati na prethodnu stranu
           </button>
           <button
-            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]} Home_admin-sidebar-btn__i6N8Q Home_organization-btn__VONga`}
+            className={`${styles["admin-sidebar-btn"]} ${styles["organization-btn"]}`}
             onClick={() => setDarkMode(!darkMode)}
           >
             🌗 {darkMode ? "Svetli mod" : "Tamni mod"}

@@ -86,8 +86,11 @@ function Profile() {
           className={styles["admin-sidebar-title"]}
           onClick={() => navigate("/profile")}
         >
-          <img src="/user.png" alt="Profile" />
-          <h2>{user.email.split("@")[0]}</h2>
+          <img
+            src="/logo.png"
+            alt="LOLA Institut Logo"
+            className={styles.logo}
+          />
         </div>
         <div className={styles["admin-sidebar-menu"]}>
           <button

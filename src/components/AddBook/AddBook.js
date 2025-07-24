@@ -290,13 +290,11 @@ function AddBook() {
   return (
     <div className={`${styles.container} ${darkMode ? styles["dark-mode"] : ""}`}>
       <div className={styles.filtersSidebar}>
-        <div
-          className={styles["admin-sidebar-title"]}
-          onClick={() => navigate("/profile")}
-        >
-          <img src="/user.png" alt="Profile" />
-          <h2>{userName}</h2>
-        </div>
+        <img
+          src="/logo.png"
+          alt="LOLA Institut Logo"
+          className={styles.logo}
+        />
         <div className={styles["admin-sidebar-menu"]}>
           {step === 3 && (
             <button
